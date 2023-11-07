@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
-import React, {useState} from 'react'
+import { ScrollView, StyleSheet, Text, View, Image , BackHandler, Alert} from 'react-native'
+import React, {useEffect, useState} from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -9,6 +9,26 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome } from '@expo/vector-icons';
 
 const MusicScreen = () => {
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Exit the application', 'Are you sure you want to exit the application?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'Exit the app', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+  }, []);
+
+
   const [isPlay, setIsPlay] = useState(false);
 
   return (

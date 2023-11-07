@@ -1,23 +1,39 @@
-import { ScrollView, Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { ScrollView, Text, View, TouchableOpacity, Image, StyleSheet, BackHandler, Alert   } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux'
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
 
-import { POSTS } from '../data/posts'
+import {POSTS} from '../data/posts'
 
 const HomeScreen = () => {
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Exit the application', 'Are you sure you want to exit the application?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'Exit the app', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <SafeAreaView>
       <Header />
-      <ScrollView>
-        {POSTS.map((post, index) => (
-          <Post key={index} post={post} />
-        ))
-        }
-      </ScrollView>
+      {POSTS.map((post, index) => (
+        <Post key={index} post={post} />
+      ))
+      }
+      {/* <Text>Welcome, {user.name}!</Text> */}
     </SafeAreaView>
   );
 };

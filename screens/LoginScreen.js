@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, AsyncStorage, ToastAndroid } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -8,11 +8,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { useState } from 'react';
-import axios from 'axios';
-import { ToastAndroid } from 'react-native';
-
-import { API_URL } from '../data/config';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../store/authSlice';
 
 const LoginScreen = ({ navigation }) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -20,6 +17,16 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const dispatch = useDispatch();
+    const { loading, error, token } = useSelector((state) => state.auth);
+
+    const handleLogin = () => {
+        console.log(email, password)
+        dispatch(login(email, password)).then(() => {
+            navigation.navigate('BottomNavigate');
+            ToastAndroid.show('Login Success', ToastAndroid.SHORT);
+          });
+    };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center", borderColor: "#AAAAAA", borderWidth: 1, borderRadius: 20 }}>
@@ -60,8 +67,8 @@ const LoginScreen = ({ navigation }) => {
                     </View>
 
                     <TouchableOpacity
-                        // onPress={() => { loginUser() }}
-                        onPress={() => navigation.navigate('BottomNavigate')}
+                        onPress={() => { handleLogin() }}
+                        // onPress={() => navigation.navigate('BottomNavigate')}
                         style={{ borderRadius: 15, alignItems: 'center', justifyContent: "center", width: 100, height: 37, marginTop: 40, elevation: 3, backgroundColor: 'black' }}
                     >
                         <Text style={{ color: 'white' }}>Log In</Text>
