@@ -43,7 +43,11 @@ const authSlice = createSlice({
     },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logoutUser, signupStart, signupSuccess, signupFailure, } = authSlice.actions;
+export const { 
+    loginStart, loginSuccess, loginFailure, 
+    logoutUser, 
+    signupStart, signupSuccess, signupFailure, 
+} = authSlice.actions;
 
 export const login = (email, password) => async (dispatch) => {
     dispatch(loginStart());
@@ -74,9 +78,10 @@ export const signup = (name, email, password) => async (dispatch) => {
     }
 };
 
-export const logout = () => async (dispatch, getState) => {
-    dispatch(logoutUser());
-};
+// export const logout = () => async (dispatch, getState) => {
+//     dispatch(logoutUser());
+//     console.log('Logout auth');
+// };
 
 export const checkToken = (state) => state.auth.token;
 

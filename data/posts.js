@@ -2,7 +2,7 @@ import { USERS } from "./users";
 
 export const POSTS = [
     {
-        imageUrl: "http://i.ibb.co/182bP1y/4k.png",
+        imageUrl: "",
         user: USERS[0].user, //userName
         likes: 7870,
         caption: "Train Ride to Hogwarts.",
@@ -36,7 +36,7 @@ export const POSTS = [
         ]
     },
     {
-        imageUrl: "http://i.ibb.co/182bP1y/4k.png",
+        imageUrl: "",
         user: USERS[1].user, //userName
         likes: 7870,
         caption: "Train Ride to Hogwarts.",

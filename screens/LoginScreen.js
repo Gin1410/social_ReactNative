@@ -25,7 +25,9 @@ const LoginScreen = ({ navigation }) => {
         dispatch(login(email, password)).then(() => {
             navigation.navigate('BottomNavigate');
             ToastAndroid.show('Login Success', ToastAndroid.SHORT);
-          });
+        }).catch((error) => {
+            Alert.alert('Error', error.message);
+        });;
     };
 
     return (
