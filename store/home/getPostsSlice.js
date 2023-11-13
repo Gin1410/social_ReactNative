@@ -2,15 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../data/config';
 
-import { checkToken } from '../authSlice';
-
-
-const getPostSlice = createSlice({
-    name: 'getPost',
+const getPostsSlice = createSlice({
+    name: 'getPosts',
     initialState: {
         posts: [],
-        loading: false,
         error: null,
+        loading: false,
     },
     reducers: {
         getPostsStart(state) {
@@ -20,6 +17,8 @@ const getPostSlice = createSlice({
         getPostsSuccess(state, action) {
             state.loading = false;
             state.posts = action.payload;
+            // console.log(action.payload);
+            // console.log(state.posts);
         },
         getPostsFailure(state, action) {
             state.loading = false;
@@ -28,26 +27,24 @@ const getPostSlice = createSlice({
     },
 });
 
-export const { getPostsStart, getPostsSuccess, getPostsFailure } = getPostSlice.actions;
+export const { getPostsStart, getPostsSuccess, getPostsFailure } = getPostsSlice.actions;
 
 export const getPosts = () => async (dispatch, getState) => {
     dispatch(getPostsStart());
-
     try {
-        const token = checkToken(getState()); // Lấy token từ trạng thái auth
-        console.log(token);
-        const response = await axios.get(API_URL + 'home/getPost.php', {
+        const token = getState().auth.token; // Accessing the token from the auth state
+        // console.log(token);
+        const config = {
             headers: {
-                Authorization: `Bearer ${token}`, // Truyền token vào tiêu đề yêu cầu
+                Authorization: `Bearer ${token}`,
             },
-        });
-        console.log(response.data);
+        };
+        const response = await axios.get(API_URL + 'home/getAllPost.php', config);
+        // console.log(response.data);
         dispatch(getPostsSuccess(response.data));
-    } catch (error) {
-        dispatch(getPostsFailure({ error: error.message }));
+    } catch (error) {   
+        dispatch(getPostsFailure(error.message));
     }
 };
 
-export const selectPosts = (state) => state.getPost.posts;
-
-export default getPostSlice.reducer;
+export default getPostsSlice.reducer;

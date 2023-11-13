@@ -42,8 +42,8 @@ const PostHeader = ({ post }) => {
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", margin: 5, }}>
 
             <View style={{ flexDirection: "row", alignItem: "center", marginTop: 7, marginLeft: 7 }}>
-                <Image source={{ uri: post.profile_picture }} style={{ width: 35, height: 35, borderRadius: 50, borderWidth: 1.6, borderColor: "#ff8501" }} />
-                <Text style={{ color: "black", marginLeft: 5, fontWeight: '700', textAlignVertical: "center" }}>{post.user}</Text>
+                <Image source={{ uri: post.avatar  }} style={{ width: 35, height: 35, borderRadius: 50, borderWidth: 1.6, borderColor: "#ff8501" }} />
+                <Text style={{ color: "black", marginLeft: 5, fontWeight: '700', textAlignVertical: "center" }}>{post.name}</Text>
             </View>
 
             <View

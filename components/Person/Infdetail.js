@@ -1,9 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react'
+import { getUser } from '../../store/person/getUserSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Foundation } from '@expo/vector-icons';
 
 const Infdetail = () => {
+  const dispatch = useDispatch();
+    const user = useSelector(state => state.getUser.user);
+    // console.log(useSelector(state => state.getUser.user));
+    useEffect(() => {
+        dispatch(getUser());
+    }, [dispatch]);
   return (
     <View>
         <View style={{ backgroundColor: `#D6E0F5`, marginTop: 10 }}>
@@ -13,28 +21,7 @@ const Infdetail = () => {
           <Foundation name="mail" size={24} color="black" />
           <View style={{marginLeft: 10}}>
             <Text style={{color: '#0066CC', fontSize: 15, fontWeight: 500}}>Email</Text>
-            <Text>ptnquynhta@gmail.com</Text>
-          </View>
-        </View>
-        <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-          <Foundation name="mail" size={24} color="black" />
-          <View style={{marginLeft: 10}}>
-            <Text style={{color: '#0066CC', fontSize: 15, fontWeight: 500}}>Email</Text>
-            <Text>ptnquynhta@gmail.com</Text>
-          </View>
-        </View>
-        <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-          <Foundation name="mail" size={24} color="black" />
-          <View style={{marginLeft: 10}}>
-            <Text style={{color: '#0066CC', fontSize: 15, fontWeight: 500}}>Email</Text>
-            <Text>ptnquynhta@gmail.com</Text>
-          </View>
-        </View>
-        <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-          <Foundation name="mail" size={24} color="black" />
-          <View style={{marginLeft: 10}}>
-            <Text style={{color: '#0066CC', fontSize: 15, fontWeight: 500}}>Email</Text>
-            <Text>ptnquynhta@gmail.com</Text>
+            <Text>{user.email}</Text>
           </View>
         </View>
       </View>

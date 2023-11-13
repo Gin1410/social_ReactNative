@@ -78,11 +78,9 @@ export const signup = (name, email, password) => async (dispatch) => {
     }
 };
 
-// export const logout = () => async (dispatch, getState) => {
-//     dispatch(logoutUser());
-//     console.log('Logout auth');
-// };
-
-export const checkToken = (state) => state.auth.token;
+export const logout = () => async (dispatch, getState) => {
+    dispatch(logoutUser());
+    console.log('Logout auth');
+};
 
 export default authSlice.reducer;

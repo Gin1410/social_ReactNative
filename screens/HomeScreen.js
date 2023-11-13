@@ -1,38 +1,34 @@
-import { ScrollView, BackHandler, Alert} from 'react-native'
+import { ScrollView, BackHandler, Alert, Text } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { POSTS } from '../data/posts';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts, selectPosts } from '../store/home/getPostSlice';
+import { getPosts } from '../store/home/getPostsSlice';
 
 import Header from '../components/Home/Header';
 import Post from '../components/Home/Post';
 
 const HomeScreen = () => {
-  // const dispatch = useDispatch();
-  // const posts = useSelector(selectPosts);
-  // // console.log(posts);
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.getPosts.posts);
+  console.log(posts);
 
-  // useEffect(() => {
-  //   dispatch(getPosts());
-  // }, []);
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
 
-  // return (
-  //   <SafeAreaView>
-  //     {Object.keys(posts).map((postId) => {
-  //       const post = posts[postId];
-  //       return (
-  //         <SafeAreaView key={postId}>
-  //           <Text>{post.caption}</Text>
-  //           <Text>{post.image}</Text>
-  //           {/* Hiển thị các thông tin khác về bài viết */}
-  //         </SafeAreaView>
-  //       );
-  //     })}
-  //   </SafeAreaView>
-  // )};
+  //   return (
+  //     <SafeAreaView>
+  //       {/* {posts.map((post) => ( */}
+  //       <SafeAreaView key={posts.id}>
+  //         <Text>{posts.email}</Text>
+  //         <Text>{posts.name}</Text>
+  //         {/* Display other post information */}
+  //       </SafeAreaView>
+  //       {/* ))} */}
+  //     </SafeAreaView>
+  //   )
+  // };
 
 
   //back System
@@ -58,10 +54,15 @@ const HomeScreen = () => {
     <SafeAreaView style={{ backgroundColor: `#D6E0F5` }}>
       <Header />
       <ScrollView>
-        {POSTS.map((post, index) => (
-          <Post key={index} post={post} />
+        {/* {Object.values(posts).map((post, index) => (
+          <Post key={post.id} post={post} />
+        ))
+        } */}
+         {Object.values(posts).map((post, index) => (
+          <Post key={post.id} post={post} />
         ))
         }
+
       </ScrollView>
     </SafeAreaView>
   );

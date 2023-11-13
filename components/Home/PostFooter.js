@@ -11,12 +11,12 @@ const PostFooter = ({ post }) => {
                 <View style={{ flexDirection: "row", alignItem: "center", marginLeft: 10 }}>
                     <TouchableOpacity style={{ alignItems: "center", alignContent: "center" }}>
                         <AntDesign name="hearto" size={24} color="black" />
-                        <Text style={{ color: "black" }}> {post.likes.toLocaleString('en')} </Text>
+                        <Text style={{ color: "black" }}> {post.like_count} </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{ alignItems: "center", alignContent: "center", marginLeft: 10 }}>
                         <Feather name="message-circle" size={24} color="black" />
-                        <Text style={{ color: "black" }}> {post.comments.length} </Text>
+                        <Text style={{ color: "black" }}> {post.comment_count} </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{ alignItems: "center", alignContent: "center", marginLeft: 10 }}>
@@ -32,7 +32,7 @@ const PostFooter = ({ post }) => {
             </View>
 
             <View style={{ margin: 10 }}>
-                <Text style={{ color: "gray" }}>View{post.comments.length > 1 ? ' all' : ''} {post.comments.length} {post.comments.length > 1 ? 'comments' : 'comment'}</Text>
+                <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text>
             </View>
         </View>
     )
