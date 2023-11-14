@@ -7,7 +7,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import BottomNavigate from './BottomNavigate';
-import ChatScreen from '../screens/ChatListScreen';
+import PostDetail from '../screens/PostDetail';
+import Post from '../components/Home/Post';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +34,22 @@ function StackNavigate() {
         component={SignUpScreen}
         options={{ headerShown: false }}
       />
-      
+
+      <Stack.Screen
+        name="PostDetail"
+        component={PostDetail}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'Post Detail',
+        }}
+      />
+
+      <Stack.Screen
+        name="Post"
+        component={Post}
+        options={{ headerShown: false }}
+      />
+
     </Stack.Navigator>
   );
 }

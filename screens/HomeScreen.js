@@ -11,7 +11,7 @@ import Post from '../components/Home/Post';
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.getPosts.posts);
-  console.log(posts);
+  // console.log(posts);
 
   useEffect(() => {
     dispatch(getPosts());
