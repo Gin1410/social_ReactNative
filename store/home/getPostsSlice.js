@@ -13,7 +13,7 @@ const getPostsSlice = createSlice({
         getPostsStart(state) {
             state.loading = true;
             state.error = null;
-            state.posts = [];
+            // state.posts = [];
         },
         getPostsSuccess(state, action) {
             state.loading = false;

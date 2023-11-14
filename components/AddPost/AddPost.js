@@ -1,49 +1,50 @@
-import { StyleSheet, View, Image, TextInput, TouchableOpacity, PermissionsAndroid, Platform } from 'react-native'
+import { StyleSheet, View, Image, TextInput, TouchableOpacity, PermissionsAndroid, Button, Text } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 
 const AddPost = () => {
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [image, setImage] = useState(null);
 
-  const handleImagePicker = async () => {
-    try {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission denied', 'Sorry, we need camera roll permissions to make this work!');
-        return;
-      }
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [12, 10],
+      quality: 1,
+    });
 
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 1,
-      });
+    console.log(result);  
 
-      if (!result.cancelled) {
-        setSelectedImage(result.uri);
-      }
-    } catch (error) {
-      console.log('Error accessing the image gallery:', error);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
   };
 
-
   return (
-    <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row", margin: 10 }}>
-      <TouchableOpacity onPress={handleImagePicker}>
-        {selectedImage ? (
-          <Image source={{ uri: selectedImage }} style={{ width: 150, height: 150 }} />
-        ) : (
-          <Image
-            source={require('../../assets/image/placeholderIMG.png')}
-            style={{ width: 150, height: 150 }}
-          />
-        )}
-      </TouchableOpacity>
-      <TextInput
-        placeholder="your caption"
-        style={{ paddingLeft: 10, width: 215, fontSize: 17 }}
-      />
+    <View>
+      <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row", margin: 10 }}>
+        <TouchableOpacity
+          onPress={pickImage}
+        >
+          {image && <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />}
+          {!image && <Image source={require('../../assets/image/placeholderIMG.png')} style={{ width: 150, height: 150 }} />}
+          
+        </TouchableOpacity>
+        <TextInput
+          placeholder="your caption"
+          style={{ paddingLeft: 10, width: 215, fontSize: 17 }}
+        />
+      </View>
+      <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <TouchableOpacity
+          // onPress={() => { handleLogout() }}
+          style={{ borderRadius: 15, alignItems: 'center', justifyContent: "center", width: 100, height: 37, marginTop: 20, elevation: 3, backgroundColor: 'black' }}
+        >
+          <Text style={{ color: 'white' }}>Add Post</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
