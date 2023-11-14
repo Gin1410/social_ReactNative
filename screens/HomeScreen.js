@@ -53,7 +53,7 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={{ backgroundColor: `#D6E0F5` }}>
       <Header />
-      <ScrollView>
+      <ScrollView style={{marginBottom: 50}}>
         {/* {Object.values(posts).map((post, index) => (
           <Post key={post.id} post={post} />
         ))

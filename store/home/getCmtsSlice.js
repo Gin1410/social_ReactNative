@@ -13,6 +13,7 @@ const getCmtsSlice = createSlice({
         getCmtsStart(state) {
             state.loading = true;
             state.error = null;
+            state.cmts = [];
         },
         getCmtsSuccess(state, action) {
             state.loading = false;
