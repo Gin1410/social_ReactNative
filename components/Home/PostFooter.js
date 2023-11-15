@@ -3,16 +3,25 @@ import React, { useState } from 'react'
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
 
+import { useDispatch } from 'react-redux';
+import { addLike } from '../../store/home/addLikeSlice';
+
+
 const PostFooter = ({ post }) => {
 
     const [liked, setLiked] = useState(false);
+
+    const dispatch = useDispatch();
+
     const handleLike = () => {
-        setLiked(!liked);
+        // console.log(post.id);
+        setLiked(true);
+        dispatch(addLike(post.id));
     };
 
     return (
         <View>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 10, marginRight: 10, marginBottom: 10 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 10, marginRight: 10 }}>
 
                 <View style={{ flexDirection: "row", alignItem: "center", marginLeft: 10 }}>
                     <TouchableOpacity style={{ alignItems: "center", alignContent: "center" }}
@@ -41,9 +50,6 @@ const PostFooter = ({ post }) => {
 
             </View>
 
-            {/* <View style={{ margin: 10 }}>
-                <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text>
-            </View> */}
         </View>
     )
 }

@@ -19,7 +19,7 @@ const PostDetail = ({ route }) => {
     const dispatch = useDispatch();
     const cmts = useSelector((state) => state.getCmts.cmts);
     const likes = useSelector((state) => state.getLikes.likes);
-    console.log(likes);
+    // console.log(likes);
 
     useEffect(() => {
         dispatch(getCmts(postId));

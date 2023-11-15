@@ -14,16 +14,20 @@ const Post = ({ post }) => {
     return (
         <Provider>
             <TouchableOpacity
-                onPress={() => navigation.navigate('PostDetail', { postId: post.id, post: post})}
+                onPress={() => navigation.navigate('PostDetail', { postId: post.id, post: post })}
             >
                 <View
-                    style={{ margin: 10,marginLeft: 15, marginRight: 15, backgroundColor: `#ffffff`, paddingLeft: 15, paddingRight: 15, paddingTop: 5, paddingBottom: 5, height: "fix-content", borderRadius: 10, elevation: 12 }}>
+                    style={{ margin: 10, marginLeft: 15, marginRight: 15, backgroundColor: `#ffffff`, paddingLeft: 15, paddingRight: 15, paddingTop: 5, paddingBottom: 5, height: "fix-content", borderRadius: 10, elevation: 12 }}>
 
                     <PostHeader post={post} />
 
                     <PostContent post={post} />
 
                     <PostFooter post={post} />
+
+                    <View style={{ margin: 10 }}>
+                        <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text>
+                    </View>
 
                 </View>
             </TouchableOpacity>
