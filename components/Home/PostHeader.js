@@ -1,10 +1,14 @@
-import { Text, View, TouchableOpacity, Image, StyleSheet, } from 'react-native'
+import { Text, View, TouchableOpacity, Image, StyleSheet, ToastAndroid } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button, Menu, } from 'react-native-paper';
 import { BackHandler, Alert } from 'react-native'
 
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePost } from '../../store/home/postSlice';
+
 const PostHeader = ({ post }) => {
+    const dispatch = useDispatch();
 
     const [visible, setVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +35,15 @@ const PostHeader = ({ post }) => {
                 },
                 {
                     text: "Delete",
-                    onPress: () => console.log("Post deleted")
+                    onPress: async () => {
+                        try {
+                            await dispatch(deletePost(post.id));
+                            ToastAndroid.show('Delete success', ToastAndroid.SHORT);
+                        } catch (error) {
+                            // Handle the error, show a message, etc.
+                            console.error("Error deleting post:", error.message);
+                        }
+                    }
                 }
             ],
             { cancelable: true }

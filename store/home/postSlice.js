@@ -25,10 +25,28 @@ const postSlice = createSlice({
             state.loading = false;
             state.error = action.payload.error;
         },
+        deletePostStart(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        deletePostSuccess(state, action) {
+            state.loading = false;
+            // Update the posts array by filtering out the deleted post
+            state.posts = state.posts.filter(post => post.id !== action.payload.postId);
+        },
+        deletePostFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload.error;
+        },
     },
 });
 
-export const { getPostsStart, getPostsSuccess, getPostsFailure } = postSlice.actions;
+export const { 
+    getPostsStart, getPostsSuccess, getPostsFailure,
+    deletePostStart, deletePostSuccess, deletePostFailure,
+ } = postSlice.actions;
+
+
 
 export const getPosts = () => async (dispatch, getState) => {
     dispatch(getPostsStart());
@@ -46,6 +64,28 @@ export const getPosts = () => async (dispatch, getState) => {
     } catch (error) {   
         dispatch(getPostsFailure(error.message));
     }
+};
+
+
+export const deletePost = (postId) => async (dispatch, getState) => {
+    dispatch(deletePostStart());
+    try {
+        const token = getState().auth.token;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        console.log('ok');
+        const response = await axios.delete(API_URL + `home/deletePost.php?postId=${postId}`, config); // Adjust the API endpoint accordingly
+        // console.log(response);
+        
+        dispatch(deletePostSuccess({ postId }));
+        dispatch(getPosts());
+    } catch (error) {
+        dispatch(deletePostFailure(error.message));
+    }
+
 };
 
 export default postSlice.reducer;

@@ -4,86 +4,131 @@ import { API_URL } from '../../data/config';
 import { getPosts } from './postSlice';
 
 const likeSlice = createSlice({
-    name: 'like',
-    initialState: {
-        likes: [],
-        error: null,
-        loading: false,
-        likedPosts: [], // Track liked posts using an array
+  name: 'like',
+  initialState: {
+    likes: [],
+    error: null,
+    loading: false,
+    likedPosts: [], // Track liked posts using an array
+  },
+  reducers: {
+    getLikesStart(state) {
+      state.loading = true;
+      state.error = null;
+      state.likes = [];
     },
-    reducers: {
-        getLikesStart(state) {
-            state.loading = true;
-            state.error = null;
-            state.likes = [];
-        },
-        getLikesSuccess(state, action) {
-            state.loading = false;
-            state.likes = action.payload;
-            // console.log(state.cmts);
-        },
-        getLikesFailure(state, action) {
-            state.loading = false;
-            state.error = action.payload.error;
-        },
-        addLikeStart(state) {
-            state.loading = true;
-            state.error = null;
-        },
-        addLikeSuccess(state, action) {
-            state.loading = false;
-            state.likedPosts.push(action.payload.postId); // Add the postId to the likedPosts array
-        },
-        addLikeFailure(state, action) {
-            state.loading = false;
-            state.error = action.payload.error;
-        },
+    getLikesSuccess(state, action) {
+      state.loading = false;
+      state.likes = action.payload;
+      // console.log(state.cmts);
     },
+    getLikesFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
+    addLikeStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    addLikeSuccess(state, action) {
+      state.loading = false;
+      // Check if likedPosts is an array or a boolean
+      if (Array.isArray(action.payload.likedPosts)) {
+        state.likedPosts.push(action.payload.postId); // Add the postId to the likedPosts array
+      } else {
+        state.likedPosts = state.likedPosts.filter(id => id !== action.payload.postId);
+      }
+    },
+    addLikeFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
+    deleteLikeStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    deleteLikeSuccess(state, action) {
+      state.loading = false;
+      state.likedPosts = state.likedPosts.filter(id => id !== action.payload.postId);
+    },
+    deleteLikeFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
+  },
 });
 
-export const { 
-    getLikesStart, getLikesSuccess, getLikesFailure,
-    addLikeStart, addLikeSuccess, addLikeFailure,
+export const {
+  getLikesStart,
+  getLikesSuccess,
+  getLikesFailure,
+  addLikeStart,
+  addLikeSuccess,
+  addLikeFailure,
+  deleteLikeStart,
+  deleteLikeSuccess,
+  deleteLikeFailure,
 } = likeSlice.actions;
 
 export const getLikes = (postId) => async (dispatch, getState) => {
-    dispatch(getLikesStart());
+  dispatch(getLikesStart());
 
-    try {
-        const response = await axios.get(API_URL + `home/getLike.php?postId=${postId}`);
-        // console.log(response.data);
-        dispatch(getLikesSuccess(response.data));
-    } catch (error) {
-        dispatch(getLikesFailure(error.message));
-    }
+  try {
+    const response = await axios.get(API_URL + `home/getLike.php?postId=${postId}`);
+    dispatch(getLikesSuccess(response.data));
+  } catch (error) {
+    dispatch(getLikesFailure(error.message));
+  }
 };
 
 export const addLike = (postId, likedPosts) => async (dispatch, getState) => {
-    dispatch(addLikeStart());
-    try {
-      const token = getState().auth.token;
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.post(`${API_URL}/home/addLike.php?postId=${postId}`, {}, config);
-  
-      if (response.status === 201) {
-        // Liked successfully
-        dispatch(addLikeSuccess({ postId, likedPosts })); // Pass postId and likedPosts to the action
-      } else if (response.status === 400) {
-        // Like already exists, set liked to true
-        dispatch(addLikeSuccess({ postId, likedPosts: true }));
-      } else {
-        // Handle other status codes if needed
-        dispatch(addLikeFailure('Failed to add like.'));
-      }
-  
-      dispatch(getPosts());
-    } catch (error) {
-      dispatch(addLikeFailure(error.message));
+  dispatch(addLikeStart());
+  try {
+    const token = getState().auth.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.post(`${API_URL}/home/addLike.php?postId=${postId}`, {}, config);
+
+    if (response.status === 201) {
+      dispatch(addLikeSuccess({ postId, likedPosts }));
+    } else if (response.status === 400) {
+      dispatch(addLikeSuccess({ postId, likedPosts: true }));
+    } else {
+      dispatch(addLikeFailure('Failed to add like.'));
     }
-  };
+
+    dispatch(getPosts());
+  } catch (error) {
+    dispatch(addLikeFailure(error.message));
+  }
+};
+
+export const deleteLike = (postId, likedPosts) => async (dispatch, getState) => {
+  dispatch(deleteLikeStart());
+  try {
+    const token = getState().auth.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.delete(`${API_URL}/home/deleteLike.php?postId=${postId}`, config);
+
+    if (response.status === 200) {
+      dispatch(deleteLikeSuccess({ postId, likedPosts }));
+    }else if (response.status === 400) {
+      dispatch(deleteLikeSuccess({ postId, likedPosts: false }));
+    } else {
+      dispatch(deleteLikeFailure('Failed to delete like.'));
+    }
+    
+    dispatch(getPosts());
+  } catch (error) {
+    dispatch(deleteLikeFailure(error.message));
+  }
+};
 
 export default likeSlice.reducer;

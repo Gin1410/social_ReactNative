@@ -53,9 +53,9 @@ const PostDetail = ({ route }) => {
 
                 <PostContent post={post} />
 
-                <PostFooter post={post} />
+                {/* <PostFooter post={post} /> */}
 
-                <View style={{ marginLeft: 10, marginBottom: 10 }}>
+                <View style={{ marginLeft: 10, marginBottom: 30, top: 20 }}>
                     <TouchableOpacity onPress={handleLikePress}>
                         <Text style={{ color: "gray" }}>View{post.like_count > 1 ? ' all' : ''} {post.like_count} {post.like_count > 1 ? 'likes' : 'like'}</Text>
                     </TouchableOpacity>
