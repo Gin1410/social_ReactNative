@@ -9,7 +9,7 @@ import PostFooter from '../components/Home/PostFooter';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getCmts } from '../store/home/commentSlice';
-import { getLikes } from '../store/home/getLikesSlice';
+import { getLikes } from '../store/home/likeSlice';
 import Cmt from '../components/Home/Cmt';
 import Like from '../components/Home/Like';
 
@@ -21,7 +21,7 @@ const PostDetail = ({ route }) => {
     const comments = useSelector((state) => state.comment.cmts);
     console.log(useSelector((state) => state.comment.cmts));
 
-    const likes = useSelector((state) => state.getLikes.likes);
+    const likes = useSelector((state) => state.like.likes);
     // console.log(likes);
 
     useEffect(() => {
