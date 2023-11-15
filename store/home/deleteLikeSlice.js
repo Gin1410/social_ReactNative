@@ -8,7 +8,7 @@ const addLikeSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    likedPosts: [], // Track liked posts using an array
+    liked: true,
   },
   reducers: {
     addLikeStart(state) {
@@ -17,7 +17,7 @@ const addLikeSlice = createSlice({
     },
     addLikeSuccess(state, action) {
       state.loading = false;
-      state.likedPosts.push(action.payload.postId); // Add the postId to the likedPosts array
+      state.liked = action.payload.liked;
     },
     addLikeFailure(state, action) {
       state.loading = false;
@@ -32,29 +32,22 @@ export const {
   addLikeFailure,
 } = addLikeSlice.actions;
 
-export const addLike = (postId, likedPosts) => async (dispatch, getState) => {
+export const addLike = (postId) => async (dispatch, getState) => {
   dispatch(addLikeStart());
   try {
-    const token = getState().auth.token;
+    const token = getState().auth.token; // Accessing the token from the auth state
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = await axios.post(`${API_URL}/home/addLike.php?postId=${postId}`, {}, config);
+    const response = await axios.post(`${API_URL}/home/deleteLike.php?postId=${postId}`, {}, config);
 
-    if (response.status === 201) {
-      // Liked successfully
-      dispatch(addLikeSuccess({ postId, likedPosts })); // Pass postId and likedPosts to the action
-    } else if (response.status === 400) {
-      // Like already exists, set liked to true
-      dispatch(addLikeSuccess({ postId, likedPosts: true }));
-    } else {
-      // Handle other status codes if needed
-      dispatch(addLikeFailure('Failed to add like.'));
-    }
+    // Determine if the post is liked based on the response data
+    const liked = response.data.liked || true;
 
-    dispatch(getPosts());
+    dispatch(addLikeSuccess({ liked }));
+    dispatch(getPosts()); // Dispatch the getPosts action to load the updated posts
   } catch (error) {
     dispatch(addLikeFailure(error.message));
   }
