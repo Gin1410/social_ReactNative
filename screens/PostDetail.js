@@ -8,7 +8,7 @@ import PostContent from '../components/Home/PostContent';
 import PostFooter from '../components/Home/PostFooter';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getCmts } from '../store/home/getCmtsSlice';
+import { getCmts } from '../store/home/commentSlice';
 import { getLikes } from '../store/home/getLikesSlice';
 import Cmt from '../components/Home/Cmt';
 import Like from '../components/Home/Like';
@@ -17,7 +17,10 @@ import Like from '../components/Home/Like';
 const PostDetail = ({ route }) => {
     const { postId, post } = route.params;
     const dispatch = useDispatch();
-    const cmts = useSelector((state) => state.getCmts.cmts);
+
+    const comments = useSelector((state) => state.comment.cmts);
+    console.log(useSelector((state) => state.comment.cmts));
+
     const likes = useSelector((state) => state.getLikes.likes);
     // console.log(likes);
 
@@ -67,7 +70,7 @@ const PostDetail = ({ route }) => {
                 {/* comment */}
                 <View style={{ marginBottom: 20 }}>
                     <View >
-                        {showComments && Object.values(cmts).map((cmt, index) => (
+                        {showComments && Object.values(comments).map((cmt, index) => (
                             <Cmt key={cmt.id} cmt={cmt} />
                         ))}
                     </View>

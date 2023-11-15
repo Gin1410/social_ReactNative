@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../data/config';
 
-const getCmtsSlice = createSlice({
-    name: 'getCmts',
+const commentSlice = createSlice({
+    name: 'comment',
     initialState: {
         cmts: [],
         error: null,
@@ -27,17 +27,12 @@ const getCmtsSlice = createSlice({
     },
 });
 
-export const { getCmtsStart, getCmtsSuccess, getCmtsFailure } = getCmtsSlice.actions;
+export const { getCmtsStart, getCmtsSuccess, getCmtsFailure } = commentSlice.actions;
 
 export const getCmts = (postId) => async (dispatch, getState) => {
     dispatch(getCmtsStart());
     
     try {
-        // const config = {
-        //     params: {
-        //         postId: postId,
-        //     },
-        // };
         const response = await axios.get(API_URL + `home/getCmt.php?postId=${postId}`);
         // console.log(response.data);
         dispatch(getCmtsSuccess(response.data));
@@ -46,4 +41,4 @@ export const getCmts = (postId) => async (dispatch, getState) => {
     }
 };
 
-export default getCmtsSlice.reducer;
+export default commentSlice.reducer;
