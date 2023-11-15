@@ -1,27 +1,46 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { AntDesign } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
 import PostHeader from '../components/Home/PostHeader';
 
-import { Provider } from 'react-native-paper';
+import { Provider, TextInput } from 'react-native-paper';
 import PostContent from '../components/Home/PostContent';
 import PostFooter from '../components/Home/PostFooter';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getCmts } from '../store/home/getCmtsSlice';
+import { getLikes } from '../store/home/getLikesSlice';
 import Cmt from '../components/Home/Cmt';
+import Like from '../components/Home/Like';
 
 
 const PostDetail = ({ route }) => {
     const { postId, post } = route.params;
     const dispatch = useDispatch();
     const cmts = useSelector((state) => state.getCmts.cmts);
-    console.log(cmts);
+    const likes = useSelector((state) => state.getLikes.likes);
+    console.log(likes);
 
     useEffect(() => {
         dispatch(getCmts(postId));
     }, [dispatch, postId]);
+
+    useEffect(() => {
+        dispatch(getLikes(postId));
+    }, [dispatch, postId]);
+
+    const [showLikes, setShowLikes] = useState(false);
+    const [showComments, setShowComments] = useState(false);
+
+    const handleLikePress = () => {
+        setShowLikes(!showLikes);
+        setShowComments(false);
+    };
+
+    const handleCommentPress = () => {
+        setShowComments(!showComments);
+        setShowLikes(false);
+    };
 
     return (
         <Provider>
@@ -31,41 +50,50 @@ const PostDetail = ({ route }) => {
 
                 <PostContent post={post} />
 
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 20, marginBottom: 10, marginRight: 10 }}>
+                <PostFooter post={post} />
 
-                    <View style={{ flexDirection: "row", alignItem: "center", marginLeft: 10 }}>
-                        <TouchableOpacity style={{ alignItems: "center", alignContent: "center" }}>
-                            <AntDesign name="hearto" size={24} color="black" />
-                            <Text style={{ color: "black" }}> {post.like_count} </Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={{ alignItems: "center", alignContent: "center", marginLeft: 10 }}>
-                            <Feather name="message-circle" size={24} color="black" />
-                            <Text style={{ color: "black" }}> {post.comment_count} </Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={{ alignItems: "center", alignContent: "center", marginLeft: 10 }}>
-                            <Feather style={{ marginLeft: 7, marginTop: 1 }} name="send" size={24} color="black" />
-                        </TouchableOpacity>
-
-                    </View>
-
-                    <TouchableOpacity>
-                        <Feather style={{ marginLeft: 10, marginTop: -15 }} name="bookmark" size={24} color="black" />
+                <View style={{ marginLeft: 10, marginBottom: 10 }}>
+                    <TouchableOpacity onPress={handleLikePress}>
+                        <Text style={{ color: "gray" }}>View{post.like_count > 1 ? ' all' : ''} {post.like_count} {post.like_count > 1 ? 'likes' : 'like'}</Text>
                     </TouchableOpacity>
+                    
 
+                    <TouchableOpacity onPress={handleCommentPress}>
+                        <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text>
+                    </TouchableOpacity>
+                    
                 </View>
 
                 {/* comment */}
                 <View style={{ marginBottom: 20 }}>
                     <View >
-                        {Object.values(cmts).map((cmt, index) => (
+                        {showComments && Object.values(cmts).map((cmt, index) => (
                             <Cmt key={cmt.id} cmt={cmt} />
-                        ))
-                        }
+                        ))}
+                    </View>
+                </View>
+
+                {/* like */}
+                <View style={{ marginBottom: 20, top: -20 }}>
+                    <View >
+                        {showLikes && Object.values(likes).map((like, index) => (
+                            <Like key={like.id} like={like} />
+                        ))}
                     </View>
                 </View>
             </ScrollView>
+
+            <View style={{ backgroundColor: `#ffffff`, flexDirection: `row` }}>
+                <TextInput
+                    placeholder="Comment"
+                    style={{ paddingLeft: 10, width: `90%`, backgroundColor: `#ffffff` }}
+                />
+                <TouchableOpacity>
+                    <Feather
+                        style={{ top: 20 }}
+                        name="send" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
         </Provider>
     );
 };
