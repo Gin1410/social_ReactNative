@@ -3,15 +3,15 @@ import React, { useState, useEffect, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts } from '../store/home/getPostsSlice';
+import { getPosts } from '../store/home/postSlice';
 
 import Header from '../components/Home/Header';
 import Post from '../components/Home/Post';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.getPosts.posts);
-  // console.log(posts);
+  const posts = useSelector((state) => state.post.posts);
+  console.log(posts);
 
   useEffect(() => {
     dispatch(getPosts());

@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../data/config';
 
-const getPostsSlice = createSlice({
-    name: 'getPosts',
+const postSlice = createSlice({
+    name: 'post',
     initialState: {
         posts: [],
         error: null,
@@ -28,7 +28,7 @@ const getPostsSlice = createSlice({
     },
 });
 
-export const { getPostsStart, getPostsSuccess, getPostsFailure } = getPostsSlice.actions;
+export const { getPostsStart, getPostsSuccess, getPostsFailure } = postSlice.actions;
 
 export const getPosts = () => async (dispatch, getState) => {
     dispatch(getPostsStart());
@@ -48,4 +48,4 @@ export const getPosts = () => async (dispatch, getState) => {
     }
 };
 
-export default getPostsSlice.reducer;
+export default postSlice.reducer;

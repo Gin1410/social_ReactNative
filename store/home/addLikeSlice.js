@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../data/config';
-import { getPosts } from './getPostsSlice'; // Import the getPosts action
+import { getPosts } from './postSlice'; // Import the getPosts action
 
 const addLikeSlice = createSlice({
   name: 'addLike',

@@ -23,7 +23,7 @@ const Post = ({ post }) => {
 
                     <PostContent post={post} />
 
-                    <PostFooter post={post} />
+                    {/* <PostFooter post={post} /> */}
 
                     <View style={{ margin: 10 }}>
                         <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text>

@@ -1,16 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import getUserSlice from './person/getUserSlice';
-import getPostsSlice from './home/getPostsSlice';
 import getCmtsSlice from './home/getCmtsSlice';
 import getLikesSlice from './home/getLikesSlice';
 import addLikeSlice from './home/addLikeSlice';
+import postSlice from './home/postSlice';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    post: postSlice,
+
     getUser: getUserSlice,
-    getPosts: getPostsSlice,
     getCmts: getCmtsSlice,
     getLikes: getLikesSlice,
     addLike: addLikeSlice,
