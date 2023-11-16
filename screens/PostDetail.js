@@ -10,6 +10,8 @@ import PostFooter from '../components/Home/PostFooter';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCmts } from '../store/home/commentSlice';
 import { getLikes } from '../store/home/likeSlice';
+import { addCmt } from '../store/home/commentSlice';
+
 import Cmt from '../components/Home/Cmt';
 import Like from '../components/Home/Like';
 
@@ -45,6 +47,9 @@ const PostDetail = ({ route }) => {
         setShowLikes(false);
     };
 
+    const [newComment, setNewComment] = useState('');
+
+
     return (
         <Provider>
             <ScrollView
@@ -59,12 +64,13 @@ const PostDetail = ({ route }) => {
                     <TouchableOpacity onPress={handleLikePress}>
                         <Text style={{ color: "gray" }}>View{post.like_count > 1 ? ' all' : ''} {post.like_count} {post.like_count > 1 ? 'likes' : 'like'}</Text>
                     </TouchableOpacity>
-                    
+
 
                     <TouchableOpacity onPress={handleCommentPress}>
-                        <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text>
+                        {/* <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text> */}
+                        <Text style={{ color: "gray" }}>View Comment</Text>
                     </TouchableOpacity>
-                    
+
                 </View>
 
                 {/* comment */}
@@ -90,8 +96,16 @@ const PostDetail = ({ route }) => {
                 <TextInput
                     placeholder="Comment"
                     style={{ paddingLeft: 10, width: `90%`, backgroundColor: `#ffffff` }}
+                    onChangeText={(text) => setNewComment(text)}
+                    value={newComment}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (newComment.trim() !== '') {
+                            dispatch(addCmt(postId, newComment));
+                            setNewComment(''); // Clear the input after sending the comment
+                        }
+                    }}>
                     <Feather
                         style={{ top: 20 }}
                         name="send" size={24} color="black" />

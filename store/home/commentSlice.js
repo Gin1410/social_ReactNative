@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../data/config';
+import { getPosts } from './postSlice';
 
 const commentSlice = createSlice({
     name: 'comment',
@@ -24,10 +25,26 @@ const commentSlice = createSlice({
             state.loading = false;
             state.error = action.payload.error;
         },
+        addCmtStart(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        addCmtSuccess(state, action) {
+            state.loading = false;
+            // Update the comments array by adding the new comment
+            state.cmts = [...state.cmts, action.payload.newComment];
+        },
+        addCmtFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload.error;
+        },
     },
 });
 
-export const { getCmtsStart, getCmtsSuccess, getCmtsFailure } = commentSlice.actions;
+export const { 
+    getCmtsStart, getCmtsSuccess, getCmtsFailure,
+    addCmtStart, addCmtSuccess, addCmtFailure,
+ } = commentSlice.actions;
 
 export const getCmts = (postId) => async (dispatch, getState) => {
     dispatch(getCmtsStart());
@@ -38,6 +55,33 @@ export const getCmts = (postId) => async (dispatch, getState) => {
         dispatch(getCmtsSuccess(response.data));
     } catch (error) {   
         dispatch(getCmtsFailure(error.message));
+    }
+};
+
+
+export const addCmt = (postId, content) => async (dispatch, getState) => {
+    dispatch(addCmtStart());
+    try {
+        const token = getState().auth.token;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        const response = await axios.post(API_URL + `home/addCmt.php?postId=${postId}`, { content }, config);
+
+        if (response.status === 201) {
+            // Only dispatch getCmts if the addition is successful
+            dispatch(addCmtSuccess({ newComment: response.data }));
+            dispatch(getCmts(postId));
+            dispatch(getPosts());
+        } else {
+            // Handle other status codes if needed
+            dispatch(addCmtFailure('Failed to add comment.'));
+        }
+    } catch (error) {
+        dispatch(addCmtFailure(error.message));
     }
 };
 
