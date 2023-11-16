@@ -1,6 +1,7 @@
 import { ScrollView, BackHandler, Alert, Text } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../store/home/postSlice';
@@ -51,20 +52,27 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ backgroundColor: `#D6E0F5` }}>
-      <Header />
-      <ScrollView style={{marginBottom: 50}}>
-        {/* {Object.values(posts).map((post, index) => (
-          <Post key={post.id} post={post} />
-        ))
-        } */}
+
+    <LinearGradient
+      colors={['#5d44d9', '#9E77EC', '#D195EE', '#CECBD3']}
+      style={{ flex: 1 }}
+    >
+
+      <SafeAreaView>
+
+        <Header />
+
+        <ScrollView style={{marginBottom: 50}}>
          {Object.values(posts).map((post, index) => (
           <Post key={post.id} post={post} />
         ))
         }
 
       </ScrollView>
-    </SafeAreaView>
+
+      </SafeAreaView>
+
+    </LinearGradient>
   );
 };
 

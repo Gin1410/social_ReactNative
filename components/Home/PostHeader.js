@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button, Menu, } from 'react-native-paper';
 import { BackHandler, Alert } from 'react-native'
+import { Entypo } from '@expo/vector-icons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from '../../store/home/postSlice';
@@ -51,11 +52,11 @@ const PostHeader = ({ post }) => {
     }
 
     return (
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", margin: 5, }}>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", margin: 5}}>
 
             <View style={{ flexDirection: "row", alignItem: "center", marginTop: 7, marginLeft: 7 }}>
-                <Image source={{ uri: post.avatar  }} style={{ width: 35, height: 35, borderRadius: 50, borderWidth: 1.6, borderColor: "#ff8501" }} />
-                <Text style={{ color: "black", marginLeft: 10, fontWeight: '700', textAlignVertical: "center" }}>{post.name}</Text>
+                <Image source={{ uri: post.avatar  }} style={{ width: 35, height: 35, borderRadius: 50, borderWidth: 1, borderColor: "white" }} />
+                <Text style={{ color: "white", marginLeft: 10, fontWeight: '700', textAlignVertical: "center", fontSize: 17 }}>{post.name}</Text>
             </View>
 
             <View
@@ -75,8 +76,8 @@ const PostHeader = ({ post }) => {
                         <Button onPress={openMenu}>
                             <MaterialCommunityIcons
                                 name={visible ? 'menu-up' : 'menu-down'}
-                                size={30}
-                                color="black"
+                                size={35}
+                                color="white"
                             />
                         </Button>
                     }

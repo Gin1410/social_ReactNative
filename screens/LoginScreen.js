@@ -19,17 +19,24 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
-    const { loading, error, token } = useSelector((state) => state.auth);
 
-    const handleLogin = () => {
-        console.log(email, password)
+    const handleLogin = async () => {
+        console.log(email, password);
+
         if (email !== '' && password !== '') {
-            dispatch(login(email, password)).then(() => {
-                navigation.navigate('BottomNavigate');
-                ToastAndroid.show('Login Success', ToastAndroid.SHORT);
-            }).catch((error) => {
-                ToastAndroid.show('Login failed', ToastAndroid.SHORT);
-            });
+            try {
+                const loginSuccessful = await dispatch(login(email, password));
+
+                if (loginSuccessful) {
+                    navigation.navigate('BottomNavigate');
+                    ToastAndroid.show('Login Success', ToastAndroid.SHORT);
+                } else {
+                    // This block will be executed if the login fails
+                    ToastAndroid.show('Login failed', ToastAndroid.SHORT);
+                }
+            } catch (error) {
+                console.error('An error occurred during login:', error);
+            }
         }
     };
 
@@ -39,7 +46,7 @@ const LoginScreen = ({ navigation }) => {
             style={{ flex: 1 }}
         >
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                
+
                 <Image
                     style={{ width: 200, height: 100 }}
                     source={require("../assets/image/logo_fff.png")}
@@ -52,7 +59,7 @@ const LoginScreen = ({ navigation }) => {
                 <View style={{ top: 20, flexDirection: 'column' }}>
 
                     <View
-                        style={{ width: 300, height: 50, borderColor: 'white',borderWidth: 3, borderRadius: 30, flexDirection: "row", alignItems: "center", paddingLeft: 15, marginBottom: 15 }}
+                        style={{ width: 300, height: 50, borderColor: 'white', borderWidth: 3, borderRadius: 30, flexDirection: "row", alignItems: "center", paddingLeft: 15, marginBottom: 15 }}
                     >
                         <AntDesign name="mail" size={20} color="white" />
                         <TextInput
@@ -90,8 +97,8 @@ const LoginScreen = ({ navigation }) => {
                 </View>
 
                 {/* sign in by other  */}
-                <View style={{ marginTop: 60, alignItems: 'center'}}>
-                    <Text style={{  marginBottom: 10 }}>
+                <View style={{ marginTop: 60, alignItems: 'center' }}>
+                    <Text style={{ marginBottom: 10 }}>
                         Or contact with
                     </Text>
 

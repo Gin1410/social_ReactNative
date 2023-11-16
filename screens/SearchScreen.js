@@ -1,4 +1,4 @@
-import {ScrollView, BackHandler, Alert } from 'react-native'
+import { ScrollView, BackHandler, Alert } from 'react-native'
 import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -7,6 +7,7 @@ import { USERS } from '../data/users';
 import Search from '../components/Search';
 import Account from '../components/Search/Account';
 
+import { LinearGradient } from 'expo-linear-gradient';
 
 const SearchScreen = () => {
 
@@ -31,22 +32,28 @@ const SearchScreen = () => {
 
 
   return (
-    <SafeAreaView style={{ backgroundColor: `#D6E0F5` }}>
+    <LinearGradient
+      colors={['#5d44d9', '#9E77EC', '#D195EE', '#CECBD3']}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView >
 
-      <Search />
+        <Search />
 
 
-      {/* list account */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {USERS.map((post, index) => (
-          <Account key={index} post={post} />
-        ))}
-      </ScrollView>
+        {/* list account */}
+        <ScrollView
+          style={{marginBottom: 60}}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {USERS.map((post, index) => (
+            <Account key={index} post={post} />
+          ))}
+        </ScrollView>
 
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   )
 }
 

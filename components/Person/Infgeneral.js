@@ -15,9 +15,9 @@ const Infgeneral = () => {
 
     return (
         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-            <Image source={{ uri: user.avatar}} style={{ width: 150, height: 150, borderRadius: 100 }} />
+            <Image source={{ uri: user.avatar}} style={{ width: 150, height: 150, borderRadius: 100,  borderColor: 'white', borderWidth: 1 }} />
             <View style={{ alignItems: 'center', marginTop: 10, }}>
-                <Text style={{ fontSize: 25, fontWeight: 500 }}>{user.name}</Text>
+                <Text style={{ fontSize: 25, fontWeight: 500, color: 'white' }}>{user.name}</Text>
             </View>
         </View>
     )

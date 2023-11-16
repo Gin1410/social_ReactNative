@@ -15,7 +15,13 @@ const Stack = createNativeStackNavigator();
 function StackNavigate() {
 
   return (
-    <Stack.Navigator initialRouteName="LoginScreen">
+    <Stack.Navigator
+      initialRouteName="LoginScreen"
+      screenOptions={{
+        tabBarActiveTintColor: '#191970',
+        tabBarStyle: { backgroundColor: '#E7E7E7' },
+      }}
+    >
 
       <Stack.Screen
         name="BottomNavigate"
@@ -41,6 +47,13 @@ function StackNavigate() {
         options={{
           headerShown: true,
           tabBarLabel: 'Post Detail',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
         }}
       />
 

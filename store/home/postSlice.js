@@ -38,12 +38,16 @@ const postSlice = createSlice({
             state.loading = false;
             state.error = action.payload.error;
         },
+        resetPosts(state) {
+            state.posts = [];
+          },
     },
 });
 
 export const { 
     getPostsStart, getPostsSuccess, getPostsFailure,
     deletePostStart, deletePostSuccess, deletePostFailure,
+    resetPosts,
  } = postSlice.actions;
 
 

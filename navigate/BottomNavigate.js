@@ -9,14 +9,14 @@ import HomeScreen from '../screens/HomeScreen'
 import SearchScreen from '../screens/SearchScreen'
 import PersonScreen from '../screens/PersonScreen'
 import AddPostScreen from '../screens/AddPostScreen';
-import MusicScreen from '../screens/MusicScreen';
+import ChatScreen from '../screens/ChatScreen';
 
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigate = () => {
 
-  
+
   return (
 
     <Tab.Navigator
@@ -25,6 +25,7 @@ const BottomNavigate = () => {
         tabBarActiveTintColor: '#191970',
       }}
     >
+
       <Tab.Screen
         options={{
           headerShown: false,
@@ -34,12 +35,16 @@ const BottomNavigate = () => {
           ),
         }}
         name="HomeScreen" component={HomeScreen}
-        // initialParams={{ token: token }}
+      // initialParams={{ token: token }}
       />
+
       <Tab.Screen
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: '#D6E0F5' },
+          headerStyle: { backgroundColor: '#5d44d9' },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
           headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
@@ -47,10 +52,14 @@ const BottomNavigate = () => {
           ),
         }}
         name="SearchScreen" component={SearchScreen} />
+
       <Tab.Screen
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: '#ffffff' },
+          headerStyle: { backgroundColor: '#5d44d9' },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
           headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
@@ -58,21 +67,29 @@ const BottomNavigate = () => {
           ),
         }}
         name="AddPostScreen" component={AddPostScreen} />
+
       <Tab.Screen
         options={{
           headerShown: true,
-          tabBarLabel: '',
-          headerStyle: { backgroundColor: '#D6E0F5' },
+          headerStyle: { backgroundColor: '#5d44d9' },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
           headerTitleAlign: 'center',
+          tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="music" color={color} size={size} style={{ top: 8 }} />
+            <MaterialCommunityIcons name="chat" color={color} size={size} style={{ top: 8 }} />
           ),
         }}
-        name="MusicScreen" component={MusicScreen} />
+        name="ChatScreen" component={ChatScreen} />
+
       <Tab.Screen
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: '#ffffff' },
+          headerStyle: { backgroundColor: '#5d44d9' },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
           headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (

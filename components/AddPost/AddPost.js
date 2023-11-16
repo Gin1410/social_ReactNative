@@ -15,7 +15,7 @@ const AddPost = () => {
       quality: 1,
     });
 
-    console.log(result);  
+    console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -30,20 +30,22 @@ const AddPost = () => {
         >
           {image && <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />}
           {!image && <Image source={require('../../assets/image/placeholderIMG.png')} style={{ width: 150, height: 150 }} />}
-          
+
         </TouchableOpacity>
         <TextInput
           placeholder="your caption"
+          placeholderTextColor={'white'}
           style={{ paddingLeft: 10, width: 215, fontSize: 17 }}
         />
       </View>
-      <View style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <TouchableOpacity
           // onPress={() => { handleLogout() }}
-          style={{ borderRadius: 15, alignItems: 'center', justifyContent: "center", width: 100, height: 37, marginTop: 20, elevation: 3, backgroundColor: 'black' }}
+          style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", elevation: 10, backgroundColor: '#635A8F', padding: 15, marginTop: 20, width: 200 }}
         >
-          <Text style={{ color: 'white' }}>Add Post</Text>
+          <Text style={{ color: 'white', fontWeight: '700' }}>Post</Text>
         </TouchableOpacity>
+
       </View>
     </View>
   )

@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import AddPost from '../components/AddPost/AddPost';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
 const AddPostScreen = () => {
 
   useEffect(() => {
@@ -25,10 +27,16 @@ const AddPostScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView>
 
-      <AddPost />
-    </SafeAreaView>
+    <LinearGradient
+      colors={['#5d44d9', '#9E77EC', '#D195EE', '#CECBD3']}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView>
+        <AddPost />
+      </SafeAreaView>
+
+    </LinearGradient>
   )
 }
 
