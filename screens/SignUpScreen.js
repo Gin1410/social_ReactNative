@@ -15,6 +15,8 @@ import { ToastAndroid } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { signup } from '../store/authSlice';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
 const SignUpScreen = ({ navigation }) => {
 
     const [isPasswordVisible, setIsPasswordVisible] = React.useState(false)
@@ -30,83 +32,94 @@ const SignUpScreen = ({ navigation }) => {
         dispatch(signup(name, email, password)).then(() => {
             navigation.navigate('LoginScreen');
             ToastAndroid.show('SignUp Success', ToastAndroid.SHORT);
-          });
+        });
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center", borderColor: "#AAAAAA", borderWidth: 1, borderRadius: 20 }}>
-            <View style={{ justifyContent: "center", alignItems: "center", margin: 30 }}>
+        <LinearGradient
+            colors={['#5d44d9', '#9E77EC', '#D195EE', '#CECBD3']}
+            style={{ flex: 1 }}
+        >
+
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
                 <Image
-                    style={{ width: 150, height: 150, marginTop: -20 }}
-                    source={require("../assets/image/logo.png")}
-                    resizeMode='cover'
+                    style={{ width: 200, height: 100 }}
+                    source={require("../assets/image/logo_fff.png")}
                 />
 
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                    Getting Started!
-                </Text>
+                <Text
+                    style={{ fontSize: 20, fontWeight: 'bold', color: 'white', marginTop: 20 }}
+                >Register</Text>
 
-                {/* form */}
-                <View style={{ marginTop: 30, flexDirection: "column", alignItems: "center", }}>
-                    <View style={{ borderColor: "#AAAAAA", borderWidth: 1, width: 280, height: 50, flexDirection: "row", alignItems: "center", paddingLeft: 10, borderRadius: 15 }}>
-                        <Ionicons name="person-outline" size={20} color="black" />
+                <View style={{ top: 20, flexDirection: 'column' }}>
+
+                    <View
+                        style={{ width: 300, height: 50, borderColor: 'white', borderWidth: 3, borderRadius: 30, flexDirection: "row", alignItems: "center", paddingLeft: 15, marginBottom: 15 }}
+                    >
+                        <Ionicons name="person-outline" size={20} color="white" />
                         <TextInput
-                            placeholder="UserName"
-                            style={{ paddingLeft: 10, width: 230 }}
+                            style={{ paddingLeft: 10, width: 215, color: 'white' }}
+                            placeholder='Your name'
+                            placeholderTextColor='white'
                             onChangeText={text => setName(text)}
-                            value={name}
                         />
                     </View>
 
-                    <View style={{ borderColor: "#AAAAAA", borderWidth: 1, width: 280, height: 50, flexDirection: "row", alignItems: "center", paddingLeft: 10, borderRadius: 15, marginTop: 20 }}>
-                        <AntDesign name="mail" size={20} color="black" />
+                    <View
+                        style={{ width: 300, height: 50, borderColor: 'white', borderWidth: 3, borderRadius: 30, flexDirection: "row", alignItems: "center", paddingLeft: 15, marginBottom: 15 }}
+                    >
+                        <AntDesign name="mail" size={20} color="white" />
                         <TextInput
-                            placeholder="Email"
-                            style={{ paddingLeft: 10, width: 230 }}
+                            style={{ paddingLeft: 10, width: 215, color: 'white' }}
+                            placeholder='Email'
+                            placeholderTextColor='white'
                             onChangeText={text => setEmail(text)}
-                            value={email}
                         />
                     </View>
 
-                    <View style={{ borderColor: "#AAAAAA", borderWidth: 1, width: 280, height: 50, flexDirection: "row", alignItems: "center", paddingLeft: 10, borderRadius: 15, marginTop: 20 }}>
-                        <AntDesign name="lock" size={20} color="black" />
+                    <View
+                        style={{ width: 300, height: 50, borderColor: 'white', borderWidth: 3, borderRadius: 30, flexDirection: "row", alignItems: "center", paddingLeft: 15, marginBottom: 15 }}
+                    >
+                        <AntDesign name="lock" size={20} color="white" />
                         <TextInput
-                            placeholder="Password"
-                            style={{ paddingLeft: 10, width: 215 }}
+                            style={{ paddingLeft: 10, width: 215, color: 'white' }}
+                            placeholder='Password'
+                            placeholderTextColor='white'
                             secureTextEntry={!isPasswordVisible}
-                            onChangeText={text => setPassword(text)}
-                            value={password}
+                            onChangeText={(text) => setPassword(text)}
                         />
                         <Entypo
                             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                            name={isPasswordVisible ? "eye" : "eye-with-line"} size={20} color="black"
+                            name={isPasswordVisible ? "eye-with-line" : "eye"} size={20} color="white"
                         />
                     </View>
 
                     <TouchableOpacity
-                         onPress={() => { handleSignup() }}
-                        style={{ borderRadius: 15, alignItems: 'center', justifyContent: "center", width: 100, height: 37, marginTop: 40, elevation: 3, backgroundColor: 'black' }}
+                        onPress={() => { handleSignup() }}
+                        style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", elevation: 10, backgroundColor: '#635A8F', padding: 15, marginTop: 10 }}
                     >
-                        <Text style={{ color: 'white' }}>Sign up</Text>
+                        <Text style={{ color: 'white', fontWeight: '700' }}>Register</Text>
                     </TouchableOpacity>
+
                 </View>
 
                 {/* sign in by other  */}
-                <View style={{ alignItems: 'center', justifyContent: "center", }}>
-                    <Text style={{ marginTop: 30, marginBottom: 10 }}>
+                <View style={{ marginTop: 60, alignItems: 'center' }}>
+                    <Text style={{ marginBottom: 10 }}>
                         Or contact with
                     </Text>
 
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: 150 }}>
-                        <TouchableOpacity style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", borderColor: "#AAAAAA", borderWidth: 1, width: 40, height: 40 }}>
+                        <TouchableOpacity style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", borderColor: "black", borderWidth: 1, width: 40, height: 40 }}>
                             <AntDesign name="google" size={24} color="black" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", borderColor: "#AAAAAA", borderWidth: 1, width: 40, height: 40 }}>
+                        <TouchableOpacity style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", borderColor: "black", borderWidth: 1, width: 40, height: 40 }}>
                             <FontAwesome name="facebook-f" size={24} color="black" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", borderColor: "#AAAAAA", borderWidth: 1, width: 40, height: 40 }}>
+                        <TouchableOpacity style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", borderColor: "black", borderWidth: 1, width: 40, height: 40 }}>
                             <FontAwesome5 name="discord" size={24} color="black" />
                         </TouchableOpacity>
                     </View>
@@ -118,14 +131,16 @@ const SignUpScreen = ({ navigation }) => {
                     <Text style={{ marginTop: 30, marginBottom: 10 }}>
                         Have an account?
                         <Text
+                            onPress={() => navigation.navigate('LoginScreen')}
                             style={{ color: "blue" }}
-                            onPress={() => navigation.navigate('LoginScreen')}>
-                            Log in</Text>
+                        > Log in</Text>
                     </Text>
                 </View>
 
             </View>
-        </SafeAreaView>
+
+        </LinearGradient>
+
     )
 }
 
