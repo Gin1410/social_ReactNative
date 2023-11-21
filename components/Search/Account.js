@@ -14,7 +14,7 @@ const Account = ({ post }) => {
 
     return (
         <View style={{ flexDirection: "row", margin: 10, height: 50, alignItems: "center", marginLeft: 30, alignSelf: 'flex-start', width: 320 }}>
-            <Image source={{ uri: `http://i.ibb.co/182bP1y/4k.png` }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+            <Image source={{ uri: `http://i.ibb.co/182bP1y/4k.png` }} style={{ width: 50, height: 50, borderRadius: 50, borderWidth: 1, borderColor: 'white' }} />
             <View style={{ marginLeft: 10 }}>
                 <Text style={{ fontWeight: 'medium', fontSize: 18, color: 'white' }}>name</Text>
                 <Text style={{ fontWeight: 'light', fontSize: 14, color: 'white' }}>artist</Text>

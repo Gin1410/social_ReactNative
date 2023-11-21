@@ -40,12 +40,7 @@ const BottomNavigate = () => {
 
       <Tab.Screen
         options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: '#5d44d9' },
-          headerTitleStyle: {
-            color: 'white', // Set the desired text color
-          },
-          headerTitleAlign: 'center',
+          headerShown: false,
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="text-search" color={color} size={size} style={{ top: 8 }} />
