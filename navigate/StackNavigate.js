@@ -1,7 +1,5 @@
 
 import * as React from 'react';
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from '../screens/LoginScreen'
@@ -9,6 +7,8 @@ import SignUpScreen from '../screens/SignUpScreen'
 import BottomNavigate from './BottomNavigate';
 import PostDetail from '../screens/PostDetail';
 import Post from '../components/Home/Post';
+import AddPost from '../components/AddPost/AddPost';
+import AddPostScreen from '../screens/AddPostScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +60,18 @@ function StackNavigate() {
       <Stack.Screen
         name="Post"
         component={Post}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="AddPostScreen"
+        component={AddPostScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="AddPost"
+        component={AddPost}
         options={{ headerShown: false }}
       />
 

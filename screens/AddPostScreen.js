@@ -6,7 +6,7 @@ import AddPost from '../components/AddPost/AddPost';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-const AddPostScreen = () => {
+const AddPostScreen = ({ navigation }) => {
 
   useEffect(() => {
     const backAction = () => {
@@ -33,7 +33,7 @@ const AddPostScreen = () => {
       style={{ flex: 1 }}
     >
       <SafeAreaView>
-        <AddPost />
+        <AddPost navigation={navigation}/>
       </SafeAreaView>
 
     </LinearGradient>

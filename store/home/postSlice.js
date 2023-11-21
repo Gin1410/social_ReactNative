@@ -25,6 +25,19 @@ const postSlice = createSlice({
             state.loading = false;
             state.error = action.payload.error;
         },
+        addPostStart(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        addPostSuccess(state, action) {
+            state.loading = false;
+            // Update the posts array by adding the new post
+            state.posts = [...state.posts, action.payload.newPost];
+        },
+        addPostFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload.error;
+        },
         deletePostStart(state) {
             state.loading = true;
             state.error = null;
@@ -46,6 +59,7 @@ const postSlice = createSlice({
 
 export const { 
     getPostsStart, getPostsSuccess, getPostsFailure,
+    addPostStart, addPostSuccess, addPostFailure,
     deletePostStart, deletePostSuccess, deletePostFailure,
     resetPosts,
  } = postSlice.actions;
@@ -70,6 +84,39 @@ export const getPosts = () => async (dispatch, getState) => {
     }
 };
 
+export const addPost = (image, caption) => async (dispatch, getState) => {
+    dispatch(addPostStart());
+    try {
+      const token = getState().auth.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+  
+      const formData = new FormData();
+      formData.append('image', {
+        uri: image,
+        type: 'image/jpeg', // Adjust the type according to your needs
+        name: 'image.jpg',
+      });
+      formData.append('caption', caption);
+      console.log(formData);
+  
+      const response = await axios.post(API_URL + 'home/addPost.php', formData, config);
+      console.log(response);
+  
+      if (response.status === 201) {
+        dispatch(addPostSuccess({ newPost: response.data }));
+        dispatch(getPosts);
+      } else {
+        dispatch(addPostFailure('Failed to add post.'));
+      }
+    } catch (error) {
+      dispatch(addPostFailure(error.message));
+    }
+  };
 
 export const deletePost = (postId) => async (dispatch, getState) => {
     dispatch(deletePostStart());
