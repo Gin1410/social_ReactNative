@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../data/config';
 import { useSelector } from 'react-redux';
 import { resetPosts } from './home/postSlice';
+import { resetSearchUser } from './search/searchUserSlice';
 
 const authSlice = createSlice({
     name: 'auth',
@@ -89,6 +90,7 @@ export const signup = (name, email, password) => async (dispatch) => {
 export const logout = () => async (dispatch, getState) => {
     dispatch(logoutUser());
     dispatch(resetPosts()); // Thêm dòng này để reset posts khi logout
+    dispatch(resetSearchUser());
     console.log('Logout auth');
 };
 

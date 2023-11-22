@@ -102,10 +102,10 @@ export const addPost = (image, caption) => async (dispatch, getState) => {
         name: 'image.jpg',
       });
       formData.append('caption', caption);
-      console.log(formData);
+    //   console.log(formData);
   
       const response = await axios.post(API_URL + 'home/addPost.php', formData, config);
-      console.log(response);
+    //   console.log(response);
   
       if (response.status === 201) {
         dispatch(addPostSuccess({ newPost: response.data }));
@@ -127,7 +127,7 @@ export const deletePost = (postId) => async (dispatch, getState) => {
                 Authorization: `Bearer ${token}`,
             },
         };
-        console.log('ok');
+        // console.log('ok');
         const response = await axios.delete(API_URL + `home/deletePost.php?postId=${postId}`, config); // Adjust the API endpoint accordingly
         // console.log(response);
         

@@ -13,7 +13,7 @@ const PostHeader = ({ post }) => {
 
     const [visible, setVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    console.log(post);
+    // console.log(post);
 
     const openMenu = () => {
         setVisible(true);
