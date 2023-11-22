@@ -5,10 +5,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import BottomNavigate from './BottomNavigate';
-import PostDetail from '../screens/PostDetail';
+import PostDetail from '../components/Home/PostDetail';
 import Post from '../components/Home/Post';
-import AddPost from '../components/AddPost/AddPost';
 import AddPostScreen from '../screens/AddPostScreen';
+import Account from '../components/Search/Account';
+import SearchScreen from '../screens/SearchScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -69,9 +70,25 @@ function StackNavigate() {
         options={{ headerShown: false }}
       />
 
+<Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'Post Detail',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
+
       <Stack.Screen
-        name="AddPost"
-        component={AddPost}
+        name="SearchScreen"
+        component={SearchScreen}
         options={{ headerShown: false }}
       />
 

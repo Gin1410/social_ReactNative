@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, BackHandler, Alert } from 'react-native'
+import React, {useEffect} from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -15,6 +15,32 @@ import ChatScreen from '../screens/ChatScreen';
 const Tab = createBottomTabNavigator();
 
 const BottomNavigate = () => {
+
+  //Out app
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert(
+        'Exit the application',
+        'Are you sure you want to exit the application?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          { text: 'Exit the app', onPress: () => BackHandler.exitApp() },
+        ]
+      );
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
 
   return (

@@ -7,26 +7,30 @@ import { addLike, deleteLike } from '../../store/home/likeSlice';
 
 const PostFooter = ({ post }) => {
   const dispatch = useDispatch();
-  const likedPosts = useSelector(state => state.like.likedPosts);
+  // const likedPosts = useSelector(state => state.like.likedPosts);
 
   // Check if the post is liked based on the likedPosts array
-  const liked = likedPosts.includes(post.id);
+  // const liked = likedPosts.includes(post.id);
 
-  const handleLike = () => {
-    // If the post is already liked, remove the like, otherwise add it
-    if (liked) {
-      dispatch(deleteLike(post.id, likedPosts));
-    } else {
-      dispatch(addLike(post.id, likedPosts));
-    }
-  };
+  // const handleLike = () => {
+  //   // If the post is already liked, remove the like, otherwise add it
+  //   if (liked) {
+  //     dispatch(deleteLike(post.id, likedPosts));
+  //   } else {
+  //     dispatch(addLike(post.id, likedPosts));
+  //   }
+  // };
 
   return (
     <View>
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 10, marginRight: 10 }}>
         <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
-          <TouchableOpacity style={{ alignItems: "center", justifyContent: "center" }} onPress={handleLike}>
-            <AntDesign name={liked ? 'heart' : 'hearto'} size={24} color={liked ? '#DD0000' : 'white'} />
+          <TouchableOpacity
+            style={{ alignItems: "center", justifyContent: "center" }}
+            // onPress={handleLike}
+          >
+            {/* <AntDesign name={liked ? 'heart' : 'hearto'} size={24} color={liked ? '#DD0000' : 'white'} /> */}
+            <AntDesign name='hearto' size={24} color='white' />
             <Text style={{ color: "white" }}> {post.like_count} </Text>
           </TouchableOpacity>
 

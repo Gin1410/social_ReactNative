@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { View, Text, Image, TouchableOpacity, ScrollView, ToastAndroid } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import PostHeader from '../components/Home/PostHeader';
+import PostHeader from './PostHeader';
 
 import { Provider, TextInput } from 'react-native-paper';
-import PostContent from '../components/Home/PostContent';
-import PostFooter from '../components/Home/PostFooter';
+import PostContent from './PostContent';
+import PostFooter from './PostFooter';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getCmts } from '../store/home/commentSlice';
-import { getLikes } from '../store/home/likeSlice';
-import { addCmt } from '../store/home/commentSlice';
+import { getCmts } from '../../store/home/commentSlice';
+import { getLikes } from '../../store/home/likeSlice';
+import { addCmt } from '../../store/home/commentSlice';
 
-import Cmt from '../components/Home/Cmt';
-import Like from '../components/Home/Like';
+import Cmt from './Cmt';
+import Like from './Like';
 
 import { LinearGradient } from 'expo-linear-gradient';
 

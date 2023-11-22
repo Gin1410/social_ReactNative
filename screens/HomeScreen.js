@@ -19,31 +19,6 @@ const HomeScreen = () => {
     dispatch(getPosts());
   }, [dispatch]);
 
-  useEffect(() => {
-    const backAction = () => {
-      Alert.alert(
-        'Exit the application',
-        'Are you sure you want to exit the application?',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          { text: 'Exit the app', onPress: () => BackHandler.exitApp() },
-        ]
-      );
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, []);
-
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const contentHeight = event.nativeEvent.contentSize.height;

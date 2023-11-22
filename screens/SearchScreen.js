@@ -19,36 +19,7 @@ const SearchScreen = () => {
 
     if (trimmedSearchTerm !== '') {
       dispatch(searchUser(trimmedSearchTerm));
-    } else {
-      dispatch(resetSearchUser());
-    }
-  }, [dispatch, searchTerm]);
-
-  // back system
-  useEffect(() => {
-    const backAction = () => {
-      Alert.alert(
-        'Exit the application',
-        'Are you sure you want to exit the application?',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          { text: 'Exit the app', onPress: () => BackHandler.exitApp() },
-        ]
-      );
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, []);
+    }}, [dispatch, searchTerm]);
 
   return (
     <LinearGradient
@@ -75,8 +46,14 @@ const SearchScreen = () => {
             placeholderTextColor={'white'}
             width="300"
             value={searchTerm}
-            onChangeText={(text) => setSearchTerm(text)}
-            onSubmitEditing={handleSearch}
+            onClear={() => {
+              setSearchTerm('');
+              dispatch(resetSearchUser());
+            }}
+            onChangeText={(text) => {
+              setSearchTerm(text);
+              handleSearch(text);
+            }}
           />
           <View style={{ position: 'absolute', right: 15, top: 10 }}>
             <Feather name="mic" size={24} color="white" />
