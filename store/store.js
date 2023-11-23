@@ -5,6 +5,7 @@ import postSlice from './home/postSlice';
 import commentSlice from './home/commentSlice';
 import likeSlice from './home/likeSlice';
 import searchUserSlice from './search/searchUserSlice';
+import postUserSlice from './search/postUserSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     comment: commentSlice,
     like: likeSlice,
     searchUser: searchUserSlice,
-    
+    postUser: postUserSlice, 
+
     getUser: getUserSlice,
   },
 });

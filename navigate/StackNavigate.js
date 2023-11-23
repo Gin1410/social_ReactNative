@@ -8,8 +8,9 @@ import BottomNavigate from './BottomNavigate';
 import PostDetail from '../components/Home/PostDetail';
 import Post from '../components/Home/Post';
 import AddPostScreen from '../screens/AddPostScreen';
-import Account from '../components/Search/Account';
+// import Account from '../components/Search/Account';
 import SearchScreen from '../screens/SearchScreen';
+import AccountDetail from '../components/search/AccountDetail';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,12 +71,28 @@ function StackNavigate() {
         options={{ headerShown: false }}
       />
 
-<Stack.Screen
+      {/* <Stack.Screen
         name="Account"
         component={Account}
         options={{
           headerShown: true,
           tabBarLabel: 'Post Detail',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      /> */}
+
+      <Stack.Screen
+        name="AccountDetail"
+        component={AccountDetail}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'Account Detail',
           headerStyle: {
             backgroundColor: '#5d44d9', // Set the desired background color
           },

@@ -5,8 +5,10 @@ import { Ionicons, Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetSearchUser, searchUser } from '../store/search/searchUserSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const SearchScreen = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const searchResult = useSelector((state) => state.searchUser.searchResult);
   const loading = useSelector((state) => state.searchUser.loading);
@@ -19,7 +21,8 @@ const SearchScreen = () => {
 
     if (trimmedSearchTerm !== '') {
       dispatch(searchUser(trimmedSearchTerm));
-    }}, [dispatch, searchTerm]);
+    }
+  }, [dispatch, searchTerm]);
 
   return (
     <LinearGradient
@@ -71,35 +74,39 @@ const SearchScreen = () => {
             showsHorizontalScrollIndicator={false}
           >
             {searchResult.map((user) => (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  margin: 10,
-                  height: 50,
-                  alignItems: 'center',
-                  marginLeft: 30,
-                  alignSelf: 'flex-start',
-                  width: 320,
-                }}
-                key={user.id}
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AccountDetail', { userId: user.id, user: user })}
               >
-                <Image source={{ uri: user.avatar }} style={{ width: 50, height: 50, borderRadius: 50, borderWidth: 1, borderColor: 'white' }} />
-                <View style={{ marginLeft: 10 }}>
-                  <Text style={{ fontWeight: 'medium', fontSize: 18, color: 'white' }}>{user.name}</Text>
-                  <Text style={{ fontWeight: 'light', fontSize: 14, color: 'white' }}>{user.email}</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    margin: 10,
+                    height: 50,
+                    alignItems: 'center',
+                    marginLeft: 30,
+                    alignSelf: 'flex-start',
+                    width: 320,
+                  }}
+                  key={user.id}
+                >
+                  <Image source={{ uri: user.avatar }} style={{ width: 50, height: 50, borderRadius: 50, borderWidth: 1, borderColor: 'white' }} />
+                  <View style={{ marginLeft: 10 }}>
+                    <Text style={{ fontWeight: 'medium', fontSize: 18, color: 'white' }}>{user.name}</Text>
+                    <Text style={{ fontWeight: 'light', fontSize: 14, color: 'white' }}>{user.email}</Text>
+                  </View>
+                  <View style={{ position: 'absolute', right: 0 }}>
+                    {user.follow == 0 ? (
+                      <TouchableOpacity style={styles.followButton}>
+                        <Text style={styles.buttonText}>Follow</Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity style={styles.unfollowButton}>
+                        <Text style={styles.buttonText}>Unfollow</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
                 </View>
-                <View style={{ position: 'absolute', right: 0 }}>
-                  {user.follow == 1 ? (
-                    <TouchableOpacity style={styles.followButton}>
-                      <Text style={styles.buttonText}>Follow</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity style={styles.unfollowButton}>
-                      <Text style={styles.buttonText}>Unfollow</Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         )}
