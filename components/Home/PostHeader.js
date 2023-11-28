@@ -8,8 +8,15 @@ import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from '../../store/home/postSlice';
 
+import { getUser } from '../../store/person/getUserSlice';
+
 const PostHeader = ({ post }) => {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.getUser.user);
+
+    useEffect(() => {
+        dispatch(getUser());
+    }, [dispatch]);
 
     const [visible, setVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +67,9 @@ const PostHeader = ({ post }) => {
                 <Text style={{ color: "white", marginLeft: 10, fontWeight: '700', textAlignVertical: "center", fontSize: 17 }}>{post.name}</Text>
             </View>
 
-            {post.follow_id == null && (
+            {/* <Text>{post.user_id}</Text>
+            <Text>{user.id}</Text> */}
+            {post.user_id == user.id && (
                 <View
                     style={{
                         paddingTop: 10,
