@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert,BackHandler, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Alert, BackHandler, ToastAndroid, ScrollView } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -47,25 +47,28 @@ const PersonScreen = ({ navigation }) => {
       colors={['#5d44d9', '#9E77EC', '#D195EE', '#CECBD3']}
       style={{ flex: 1 }}
     >
-    <SafeAreaView >
+      <ScrollView >
 
-      <Infgeneral />
+        <Infgeneral/>
 
-      <Infdetail />
+        <View style={{ display: 'flex', alignItems: 'center', marginTop: -30, marginBottom: 10 }}>
+          {isAuthenticated && (
+            <TouchableOpacity
+              onPress={() => { handleLogout() }}
+              style={{ borderRadius: 15, alignItems: 'center', justifyContent: "center", width: 100, height: 37, marginTop: 40, elevation: 3, backgroundColor: 'black' }}
+            >
+              <Text style={{ color: 'white' }}>Log Out </Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
-      <View style={{ display: 'flex', alignItems: 'center' }}>
-        {isAuthenticated && (
-          <TouchableOpacity
-            onPress={() => { handleLogout() }}
-            style={{ borderRadius: 15, alignItems: 'center', justifyContent: "center", width: 100, height: 37, marginTop: 40, elevation: 3, backgroundColor: 'black' }}
-          >
-            <Text style={{ color: 'white' }}>Log Out </Text>
-          </TouchableOpacity>
-        )}
-      </View>
-
-    </SafeAreaView>
+        <Infdetail />
+        
+      </ScrollView>
     </LinearGradient>
+
+
+
   )
 }
 

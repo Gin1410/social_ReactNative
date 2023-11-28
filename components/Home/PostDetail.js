@@ -22,7 +22,7 @@ const PostDetail = ({ route }) => {
     const dispatch = useDispatch();
 
     const comments = useSelector((state) => state.comment.cmts);
-    console.log(useSelector((state) => state.comment.cmts));
+    // console.log(useSelector((state) => state.comment.cmts));
 
     const likes = useSelector((state) => state.like.likes);
     // console.log(likes);

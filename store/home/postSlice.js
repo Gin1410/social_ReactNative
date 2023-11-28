@@ -109,7 +109,7 @@ export const addPost = (image, caption) => async (dispatch, getState) => {
   
       if (response.status === 201) {
         dispatch(addPostSuccess({ newPost: response.data }));
-        dispatch(getPosts);
+        // dispatch(getPosts);
       } else {
         dispatch(addPostFailure('Failed to add post.'));
       }
