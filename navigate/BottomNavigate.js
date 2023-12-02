@@ -91,7 +91,7 @@ const BottomNavigate = () => {
 
       <Tab.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: { backgroundColor: '#5d44d9' },
           headerTitleStyle: {
             color: 'white', // Set the desired text color

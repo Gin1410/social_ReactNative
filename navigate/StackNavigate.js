@@ -11,6 +11,9 @@ import AddPostScreen from '../screens/AddPostScreen';
 // import Account from '../components/Search/Account';
 import SearchScreen from '../screens/SearchScreen';
 import AccountDetail from '../components/search/AccountDetail';
+import ChatScreen from '../screens/ChatScreen';
+import UserMes from '../components/chat/UserMes';
+import Message from '../components/chat/Message';
 
 const Stack = createNativeStackNavigator();
 
@@ -109,6 +112,27 @@ function StackNavigate() {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Message"
+        component={Message}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'Message',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
     </Stack.Navigator>
   );
 }

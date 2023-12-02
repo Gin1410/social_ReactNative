@@ -15,7 +15,7 @@ const AccountDetail = ({ route }) => {
         dispatch(getUserPosts(userId));
     }, [dispatch, userId]);
 
-    console.log(posts);
+    // console.log(posts);
 
     return (
         <LinearGradient
@@ -23,15 +23,15 @@ const AccountDetail = ({ route }) => {
             style={{ flex: 1 }}
         >
             <SafeAreaView>
-                <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 0, borderBottomColor: 'white', borderBottomWidth: 1, position: 'absolute', top: 20, left: 0, right: 0, zIndex: 1 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 0, borderBottomColor: 'white', borderBottomWidth: 1, position: 'absolute', top: 12, left: 0, right: 0, }}>
                     <Image source={{ uri: user.avatar }} style={{ width: 150, height: 150, borderRadius: 100, borderColor: 'white', borderWidth: 1 }} />
 
-                    <View style={{ alignItems: 'center', marginTop: 10, }}>
+                    <View style={{ alignItems: 'center',  marginBottom: 10 }}>
                         <Text style={{ fontSize: 25, fontWeight: 500, color: 'white' }}>{user.name}</Text>
                         <Text style={{ fontSize: 16, fontWeight: 300, color: 'white' }}>{user.email}</Text>
                     </View>
 
-                    <View style={{ top: 15 }}>
+                    <View style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between', width: '55%', marginBottom: 12,  }}>
                         {user.follow == 0 ? (
                             <TouchableOpacity style={styles.followButton}>
                                 <Text style={styles.buttonText}>Follow</Text>
@@ -41,19 +41,22 @@ const AccountDetail = ({ route }) => {
                                 <Text style={styles.buttonText}>Unfollow</Text>
                             </TouchableOpacity>
                         )}
+
+                        <TouchableOpacity style={styles.msgBtn}>
+                            <Text style={{color: '#635A8F',  fontWeight: 'bold', fontSize: 18}}>Chat</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
 
                 <ScrollView
-                    style={{ position: 'relative', zIndex: 0, marginTop: 249, }}
+                    style={{ position: 'relative', zIndex: 0, marginTop: 257, }}
                     height={500}
-                    contentContainerStyle={{  }} 
+                    contentContainerStyle={{}}
                 >
                     {Object.values(posts).map((post, index) => (
                         <Post key={post.id} post={post} />
                     ))}
-                    {/* <Text>dfdddddddddddkjfkdjfdjfjskfjfkjdfkdjhfdjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</Text> */}
                 </ScrollView>
 
             </SafeAreaView>
@@ -64,6 +67,20 @@ const AccountDetail = ({ route }) => {
 export default AccountDetail;
 
 const styles = StyleSheet.create({
+    msgBtn: {
+        backgroundColor: '#ffffff',
+        outline: 'none',
+        borderRadius: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer',
+        height: 40,
+        width: 100,
+        opacity: 1,
+        elevation: 10,
+        position: 'relative',
+        zIndex: 100,
+    },  
     followButton: {
         backgroundColor: '#6495ED',
         outline: 'none',
@@ -71,8 +88,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         cursor: 'pointer',
-        height: 35,
-        width: 80,
+        height: 40,
+        width: 100,
         opacity: 1,
         elevation: 10,
         position: 'relative',
@@ -85,13 +102,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         cursor: 'pointer',
-        height: 35,
-        width: 80,
+        height: 40,
+        width: 100,
         opacity: 1,
         elevation: 10,
     },
     buttonText: {
         color: 'white',
-        fontWeight: 'bold',
+        fontWeight: 'bold', 
+        fontSize: 18
     },
 });

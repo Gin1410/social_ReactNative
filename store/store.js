@@ -6,6 +6,7 @@ import commentSlice from './home/commentSlice';
 import likeSlice from './home/likeSlice';
 import searchUserSlice from './search/searchUserSlice';
 import postUserSlice from './search/postUserSlice';
+import chatUserSlice from './chat/chatUserSlice';
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     like: likeSlice,
     searchUser: searchUserSlice,
     postUser: postUserSlice, 
+    chatUser: chatUserSlice,
 
     getUser: getUserSlice,
   },

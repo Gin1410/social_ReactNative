@@ -38,7 +38,7 @@ export const {
 export const getUserPosts = (userId) => async (dispatch) => {
   dispatch(getUserPostsStart());
   try {
-    console.log(userId);
+    // console.log(userId);
     const response = await axios.get( API_URL + `search/getPostAcc.php?userId=${userId}`);
     dispatch(getUserPostsSuccess(response.data));
     // console.log(response.data);

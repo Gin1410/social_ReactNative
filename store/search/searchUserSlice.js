@@ -47,7 +47,7 @@ export const searchUser = (searchTerm) => async (dispatch, getState) => {
       },
     };
     const response = await axios.get( API_URL + `search/searchUser.php?search=${searchTerm}`, config);
-    console.log(response.data);
+    // console.log(response.data);
     dispatch(searchUserSuccess(response.data));
     
   } catch (error) {
