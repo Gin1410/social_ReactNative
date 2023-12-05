@@ -1,12 +1,10 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Platform, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+// import DatePicker from 'react-native-modern-datepicker';
+// import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, Entypo, FontAwesome, FontAwesome5, Ionicons, Fontisto } from '@expo/vector-icons';
 
 import { API_URL } from '../data/config';
 import axios from 'axios';
@@ -19,7 +17,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const SignUpScreen = ({ navigation }) => {
 
-    const [isPasswordVisible, setIsPasswordVisible] = React.useState(false)
+    const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+    // const [openCalendar, setOpenCalendar] = React.useState(false);
+    // const today = new Date(); // Get the current date
+    // const formattedToday = today.toISOString().split('T')[0]; // Format it as "YYYY-MM-DD"
+    // const [date, setDate] = useState(formattedToday);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -34,6 +36,15 @@ const SignUpScreen = ({ navigation }) => {
             ToastAndroid.show('SignUp Success', ToastAndroid.SHORT);
         });
     };
+
+    // const handleOnCalendar = () => {
+    //     // console.log("close calendar");
+    //     setOpenCalendar(!openCalendar);
+    // };
+
+    // const handleChange = newDate => {
+    //     setDate(newDate);
+    // };
 
     return (
         <LinearGradient
@@ -94,6 +105,61 @@ const SignUpScreen = ({ navigation }) => {
                             name={isPasswordVisible ? "eye-with-line" : "eye"} size={20} color="white"
                         />
                     </View>
+
+                    {/* <View>
+                        <Text style={{ color: 'white', bottom: 6, fontSize: 16 }}>Birth of date</Text>
+
+                        <View style={{ width: 300, height: 50, borderColor: 'white', borderWidth: 3, borderRadius: 30, flexDirection: "row", alignItems: "center", paddingLeft: 15, marginBottom: 15 }}>
+                            <Fontisto name="date" size={20} color="white" />
+                            <TouchableOpacity
+                                onPress={handleOnCalendar}
+                            >
+                                <Text style={{ paddingLeft: 10, color: 'white' }}>
+                                    {date || 'Select a date'}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={openCalendar}
+                            style={{ borderRadius: 20 }}
+                        >
+
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                <View style={{ backgroundColor: '#090C08', width: '90%', padding: 0, alignItems: 'center', borderRadius: 10 }}>
+
+                                    <DatePicker
+                                        options={{
+                                            backgroundColor: '#090C08',
+                                            textHeaderColor: '#FFA25B',
+                                            textDefaultColor: '#F6E7C1',
+                                            selectedTextColor: '#fff',
+                                            mainColor: '#F4722B',
+                                            textSecondaryColor: '#D6C7A1',
+                                            borderColor: 'rgba(122, 146, 165, 0.1)',
+                                        }}
+                                        current={formattedToday}
+                                        selected={date}
+                                        onDateChange={handleChange}
+                                        mode="calendar"
+                                        minuteInterval={30}
+                                        style={{ borderRadius: 10 }}
+                                    />
+
+                                    <TouchableOpacity
+                                        onPress={handleOnCalendar}
+                                        style={{ top: -10, padding: 10 }}
+                                    >
+                                        <Text style={{ color: 'white' }}>Close</Text>
+                                    </TouchableOpacity>
+
+                                </View>
+                            </View>
+
+                        </Modal>
+                    </View> */}
 
                     <TouchableOpacity
                         onPress={() => { handleSignup() }}
