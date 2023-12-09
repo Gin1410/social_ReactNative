@@ -122,7 +122,7 @@ function StackNavigate() {
         name="Message"
         component={Message}
         options={{
-          headerShown: true,
+          headerShown: false,
           tabBarLabel: 'Message',
           headerStyle: {
             backgroundColor: '#5d44d9', // Set the desired background color

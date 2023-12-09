@@ -19,7 +19,7 @@ const UserMes = ({ chatUser }) => {
 
         <Provider>
             <TouchableOpacity
-                onPress={() => navigation.navigate('Message', { chatUserId: chatUser.id})}
+                onPress={() => navigation.navigate('Message', { chatUserId: chatUser.id, chatUser: chatUser})}
             >
                 <View style={{ flexDirection: 'row', padding: 15 }}>
                     <View style={{ marginRight: 10 }}>
