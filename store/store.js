@@ -7,6 +7,7 @@ import likeSlice from './home/likeSlice';
 import searchUserSlice from './search/searchUserSlice';
 import postUserSlice from './search/postUserSlice';
 import chatUserSlice from './chat/chatUserSlice';
+import chatMsgSlice from './chat/chatMsgSlice';
 
 const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
     searchUser: searchUserSlice,
     postUser: postUserSlice, 
     chatUser: chatUserSlice,
+    chatMsg: chatMsgSlice,
 
     getUser: getUserSlice,
   },

@@ -4,21 +4,31 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign, FontAwesome, Feather, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import { io } from 'socket.io-client';
-import { useSelector } from 'react-redux'; 
+import { SOCKET } from '../../data/config';
+
+import { getChatMsg } from '../../store/chat/chatMsgSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Message({ route, navigation }) {
   const userId = useSelector((state) => state.getUser.user.id);
   const { chatUserId, chatUser } = route.params;
+  const dispatch = useDispatch();
+  const msgs = useSelector((state) => state.chatMsg.msgs);
+  // console.log(msgs);
 
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
 
   useEffect(() => {
-    const newSocket = io('http://192.168.1.10:3000', { json: false });
+    dispatch(getChatMsg(chatUserId));
+  }, [dispatch, chatUserId]);
 
-    console.log('User ID:', userId);
-    console.log('Chat User ID:', chatUserId);
+  useEffect(() => { 
+    const newSocket = io(SOCKET, { json: false });
+
+    // console.log('User ID:', userId);
+    // console.log('Chat User ID:', chatUserId);
 
     // Lắng nghe sự kiện khi có tin nhắn từ server
     newSocket.on('server-send-message', (data) => {
@@ -32,6 +42,9 @@ export default function Message({ route, navigation }) {
       newSocket.disconnect();
     };
   }, [userId, chatUserId]);
+
+  const combinedMessages = [...msgs, ...messages];
+  // console.log(combinedMessages);
 
   const sendMessage = () => {
     if (inputMessage.trim() !== '') {
@@ -70,10 +83,10 @@ export default function Message({ route, navigation }) {
           style={{ flex: 1 }}
         >
           <FlatList
-            data={messages}
+            data={combinedMessages}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <Text style={{ alignSelf: item.id === socket?.id ? 'flex-end' : 'flex-start', borderRadius: 20, backgroundColor: '#635A8F', width: 'auto', maxWidth: '50%', margin: 5, padding: 10, color: 'white' }}>
+              <Text style={{ alignSelf:  (item.id == socket?.id || userId == item.sender_id) ? 'flex-end' : 'flex-start', borderRadius: 20, backgroundColor: '#635A8F', width: 'auto', maxWidth: '50%', margin: 5, padding: 10, color: 'white' }}>
                 {`${item.message}`}
               </Text>
             )}

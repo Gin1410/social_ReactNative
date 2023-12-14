@@ -33,7 +33,7 @@ const UserMes = ({ chatUser }) => {
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ width: '65%', marginTop: 7 }}>
-                                <Text style={{ color: 'white' }}>{chatUser.msg}</Text>
+                                <Text style={{ color: 'white' }}>{chatUser.message}</Text>
                             </View>
 
                             <View style={{ width: '20%', marginTop: 7, }}>
