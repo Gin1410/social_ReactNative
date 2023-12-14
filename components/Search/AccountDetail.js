@@ -5,8 +5,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getUserPosts } from '../../store/search/postUserSlice';
 import Post from '../Home/Post';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const AccountDetail = ({ route }) => {
+    const navigation = useNavigation();
     const { userId, user } = route.params;
     const dispatch = useDispatch();
     const { posts } = useSelector((state) => state.postUser);
@@ -42,7 +44,9 @@ const AccountDetail = ({ route }) => {
                             </TouchableOpacity>
                         )}
 
-                        <TouchableOpacity style={styles.msgBtn}>
+                        <TouchableOpacity style={styles.msgBtn}
+                            onPress={() => navigation.navigate('Message', { chatUserId: userId, chatUser: user})}
+                        >
                             <Text style={{color: '#635A8F',  fontWeight: 'bold', fontSize: 18}}>Chat</Text>
                         </TouchableOpacity>
                     </View>
