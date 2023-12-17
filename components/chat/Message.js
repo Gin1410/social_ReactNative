@@ -6,7 +6,7 @@ import { AntDesign, FontAwesome, Feather, Entypo, Ionicons, MaterialIcons } from
 import { io } from 'socket.io-client';
 import { SOCKET } from '../../data/config';
 
-import { getChatMsg } from '../../store/chat/chatMsgSlice';
+import { getChatMsg, addChatMsg } from '../../store/chat/chatMsgSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Message({ route, navigation }) {
@@ -50,6 +50,7 @@ export default function Message({ route, navigation }) {
     if (inputMessage.trim() !== '') {
       socket.emit('client-send-message', inputMessage);
       setInputMessage('');
+      dispatch(addChatMsg(chatUserId, inputMessage));
     }
   };
 
