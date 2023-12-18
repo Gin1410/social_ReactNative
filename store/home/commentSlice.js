@@ -70,9 +70,9 @@ export const addCmt = (postId, content) => async (dispatch, getState) => {
         };
 
         const response = await axios.post(API_URL + `home/addCmt.php?postId=${postId}`, { content }, config);
+        // console.log(response.status);
 
-        if (response.status === 201) {
-            // Only dispatch getCmts if the addition is successful
+        if (response.status === 200) {
             dispatch(addCmtSuccess({ newComment: response.data }));
             dispatch(getCmts(postId));
             dispatch(getPosts());
