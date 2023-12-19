@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../data/config';
+import { getChatUser } from './chatUserSlice';
 
 const chatMsgSlice = createSlice({
     name: 'chatMsg',
@@ -84,9 +85,9 @@ export const addChatMsg = (chatUserId, message) => async (dispatch, getState) =>
         const response = await axios.post(API_URL + `chat/addMsg.php?chatUserId=${chatUserId}`, formData, config);
         //   console.log(response);
 
-        if (response.status === 201) {
-            dispatch(addMsgSuccess({ newMsg: response.data }));
-            // dispatch(getPosts);
+        if (response.status === 200) {
+            // dispatch(addMsgSuccess({ newMsg: response.data }));
+            dispatch(getChatUser());
         } else {
             dispatch(addMsgFailure('Failed to add post.'));
         }

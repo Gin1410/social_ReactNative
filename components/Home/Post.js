@@ -21,7 +21,7 @@ const Post = ({ post }) => {
 
                     <PostHeader post={post} />
 
-                    <PostContent post={post} />
+                    <PostContent post={post} key={post.id} />
 
                     <PostFooter post={post} />
 

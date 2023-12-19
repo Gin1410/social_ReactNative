@@ -24,16 +24,16 @@ const PostDetail = ({ route }) => {
     const comments = useSelector((state) => state.comment.cmts);
     // console.log(useSelector((state) => state.comment.cmts));
 
-    // const likes = useSelector((state) => state.like.likes);
+    const likes = useSelector((state) => state.like.likes);
     // console.log(likes);
 
     useEffect(() => {
         dispatch(getCmts(postId));
     }, [dispatch, postId]);
 
-    // useEffect(() => {
-    //     dispatch(getLikes(postId));
-    // }, [dispatch, postId]);
+    useEffect(() => {
+        dispatch(getLikes(postId));
+    }, [dispatch, postId]);
 
     const [showLikes, setShowLikes] = useState(false);
     const [showComments, setShowComments] = useState(false);
