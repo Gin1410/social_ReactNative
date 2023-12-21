@@ -1,25 +1,11 @@
+import React, { useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addLike, deleteLike } from '../../store/home/likeSlice';
 
 const PostFooter = ({ post }) => {
   const dispatch = useDispatch();
-  // const likedPosts = useSelector(state => state.like.likedPosts);
-
-  // Check if the post is liked based on the likedPosts array
-  // const liked = likedPosts.includes(post.id);
-
-  // const handleLike = () => {
-  //   // If the post is already liked, remove the like, otherwise add it
-  //   if (liked) {
-  //     dispatch(deleteLike(post.id, likedPosts));
-  //   } else {
-  //     dispatch(addLike(post.id, likedPosts));
-  //   }
-  // };
 
   return (
     <View>
@@ -27,10 +13,14 @@ const PostFooter = ({ post }) => {
         <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
           <TouchableOpacity
             style={{ alignItems: "center", justifyContent: "center" }}
-            // onPress={handleLike}
+          // onPress={handleLike}
           >
             {/* <AntDesign name={liked ? 'heart' : 'hearto'} size={24} color={liked ? '#DD0000' : 'white'} /> */}
-            <AntDesign name='hearto' size={24} color='white' />
+            {post.like_status == 1 ? (
+              <AntDesign name='heart' size={24} color='#DD0000' />
+            ) : (
+              <AntDesign name='hearto' size={24} color='white' />
+            )}
             <Text style={{ color: "white" }}> {post.like_count} </Text>
           </TouchableOpacity>
 
@@ -50,6 +40,6 @@ const PostFooter = ({ post }) => {
       </View>
     </View>
   );
-}
+};
 
 export default PostFooter;
