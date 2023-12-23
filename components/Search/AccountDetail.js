@@ -6,18 +6,27 @@ import { getUserPosts } from '../../store/search/postUserSlice';
 import Post from '../Home/Post';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { addfollow, deletefollow } from '../../store/search/followSlice';
 
 const AccountDetail = ({ route }) => {
     const navigation = useNavigation();
-    const { userId, user } = route.params;
+    const { followId, followUser } = route.params;
     const dispatch = useDispatch();
     const { posts } = useSelector((state) => state.postUser);
 
     useEffect(() => {
-        dispatch(getUserPosts(userId));
-    }, [dispatch, userId]);
+        dispatch(getUserPosts(followId));
+    }, [dispatch, followId]);
 
     // console.log(posts);
+
+    const handleFollow = () => {
+        if (followUser.follow == 1) {
+            dispatch(deletefollow(followUser.id));
+        } else {
+            dispatch(addfollow(followUser.id));
+        }
+    };
 
     return (
         <LinearGradient
@@ -26,28 +35,33 @@ const AccountDetail = ({ route }) => {
         >
             <SafeAreaView>
                 <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 0, borderBottomColor: 'white', borderBottomWidth: 1, position: 'absolute', top: 12, left: 0, right: 0, }}>
-                    <Image source={{ uri: user.avatar }} style={{ width: 150, height: 150, borderRadius: 100, borderColor: 'white', borderWidth: 1 }} />
+                    <Image source={{ uri: followUser.avatar }} style={{ width: 150, height: 150, borderRadius: 100, borderColor: 'white', borderWidth: 1 }} />
 
-                    <View style={{ alignItems: 'center',  marginBottom: 10 }}>
-                        <Text style={{ fontSize: 25, fontWeight: 500, color: 'white' }}>{user.name}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: 300, color: 'white' }}>{user.email}</Text>
+                    <View style={{ alignItems: 'center', marginBottom: 10 }}>
+                        <Text style={{ fontSize: 25, fontWeight: 500, color: 'white' }}>{followUser.name}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 300, color: 'white' }}>{followUser.email}</Text>
                     </View>
 
-                    <View style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between', width: '55%', marginBottom: 12,  }}>
-                        {user.follow == 0 ? (
-                            <TouchableOpacity style={styles.followButton}>
-                                <Text style={styles.buttonText}>Follow</Text>
-                            </TouchableOpacity>
-                        ) : (
-                            <TouchableOpacity style={styles.unfollowButton}>
-                                <Text style={styles.buttonText}>Unfollow</Text>
-                            </TouchableOpacity>
-                        )}
+                    <View style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between', width: '55%', marginBottom: 12, }}>
+                        <TouchableOpacity
+                            onPress={handleFollow}>
+                            {followUser.follow == 0 ? (
+                                <TouchableOpacity style={styles.followButton}
+                                    onPress={handleFollow}>
+                                    <Text style={styles.buttonText}>Follow</Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity style={styles.unfollowButton}
+                                    onPress={handleFollow}>
+                                    <Text style={styles.buttonText}>Unfollow</Text>
+                                </TouchableOpacity>
+                            )}
+                        </TouchableOpacity>
 
                         <TouchableOpacity style={styles.msgBtn}
-                            onPress={() => navigation.navigate('Message', { chatUserId: userId, chatUser: user})}
+                            onPress={() => navigation.navigate('Message', { chatUserId: followId, chatUser: followUser })}
                         >
-                            <Text style={{color: '#635A8F',  fontWeight: 'bold', fontSize: 18}}>Chat</Text>
+                            <Text style={{ color: '#635A8F', fontWeight: 'bold', fontSize: 18 }}>Chat</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -84,7 +98,7 @@ const styles = StyleSheet.create({
         elevation: 10,
         position: 'relative',
         zIndex: 100,
-    },  
+    },
     followButton: {
         backgroundColor: '#6495ED',
         outline: 'none',
@@ -113,7 +127,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
         fontSize: 18
     },
 });

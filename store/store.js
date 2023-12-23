@@ -8,6 +8,7 @@ import searchUserSlice from './search/searchUserSlice';
 import postUserSlice from './search/postUserSlice';
 import chatUserSlice from './chat/chatUserSlice';
 import chatMsgSlice from './chat/chatMsgSlice';
+import followSlice from './search/followSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     postUser: postUserSlice, 
     chatUser: chatUserSlice,
     chatMsg: chatMsgSlice,
+    follow: followSlice,
 
     getUser: getUserSlice,
   },
