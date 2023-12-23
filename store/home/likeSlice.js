@@ -9,7 +9,6 @@ const likeSlice = createSlice({
     likes: [],
     error: null,
     loading: false,
-    likedPosts: [], // Track liked posts using an array
   },
   reducers: {
     getLikesStart(state) {
@@ -32,12 +31,7 @@ const likeSlice = createSlice({
     },
     addLikeSuccess(state, action) {
       state.loading = false;
-      // Check if likedPosts is an array or a boolean
-      if (Array.isArray(action.payload.likedPosts)) {
-        state.likedPosts.push(action.payload.postId); // Add the postId to the likedPosts array
-      } else {
-        state.likedPosts = state.likedPosts.filter(id => id !== action.payload.postId);
-      }
+      state.likes = [...state.likes, action.payload.newLike];
     },
     addLikeFailure(state, action) {
       state.loading = false;
@@ -49,7 +43,6 @@ const likeSlice = createSlice({
     },
     deleteLikeSuccess(state, action) {
       state.loading = false;
-      state.likedPosts = state.likedPosts.filter(id => id !== action.payload.postId);
     },
     deleteLikeFailure(state, action) {
       state.loading = false;
@@ -81,7 +74,7 @@ export const getLikes = (postId) => async (dispatch, getState) => {
   }
 };
 
-export const addLike = (postId, likedPosts) => async (dispatch, getState) => {
+export const addLike = (postId) => async (dispatch, getState) => {
   dispatch(addLikeStart());
   try {
     const token = getState().auth.token;
@@ -91,22 +84,19 @@ export const addLike = (postId, likedPosts) => async (dispatch, getState) => {
       },
     };
     const response = await axios.post(`${API_URL}/home/addLike.php?postId=${postId}`, {}, config);
-
-    if (response.status === 201) {
-      dispatch(addLikeSuccess({ postId, likedPosts }));
-    } else if (response.status === 400) {
-      dispatch(addLikeSuccess({ postId, likedPosts: true }));
+    // console.log(response.status)
+    if (response.status === 200) {
+      dispatch(addLikeSuccess(postId));
+      dispatch(getPosts())
     } else {
       dispatch(addLikeFailure('Failed to add like.'));
     }
-
-    dispatch(getPosts());
   } catch (error) {
     dispatch(addLikeFailure(error.message));
   }
 };
 
-export const deleteLike = (postId, likedPosts) => async (dispatch, getState) => {
+export const deleteLike = (postId) => async (dispatch, getState) => {
   dispatch(deleteLikeStart());
   try {
     const token = getState().auth.token;
@@ -118,9 +108,10 @@ export const deleteLike = (postId, likedPosts) => async (dispatch, getState) => 
     const response = await axios.delete(`${API_URL}/home/deleteLike.php?postId=${postId}`, config);
 
     if (response.status === 200) {
-      dispatch(deleteLikeSuccess({ postId, likedPosts }));
+      dispatch(deleteLikeSuccess(postId));
     }else if (response.status === 400) {
-      dispatch(deleteLikeSuccess({ postId, likedPosts: false }));
+      dispatch(deleteLikeSuccess(postId));
+      dispatch(getPosts())
     } else {
       dispatch(deleteLikeFailure('Failed to delete like.'));
     }

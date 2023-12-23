@@ -3,9 +3,22 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { addLike, deleteLike } from '../../store/home/likeSlice';
 
 const PostFooter = ({ post }) => {
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.getUser.user.id);
+  // console.log(userId);
+
+  const handleLike = () => {
+    if (post.like_status == 1) {
+      dispatch(deleteLike(post.id));
+      // console.log("Delete")
+    } else {
+      dispatch(addLike(post.id));
+    }
+  };
+
 
   return (
     <View>
@@ -13,7 +26,7 @@ const PostFooter = ({ post }) => {
         <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
           <TouchableOpacity
             style={{ alignItems: "center", justifyContent: "center" }}
-          // onPress={handleLike}
+            onPress={handleLike}
           >
             {/* <AntDesign name={liked ? 'heart' : 'hearto'} size={24} color={liked ? '#DD0000' : 'white'} /> */}
             {post.like_status == 1 ? (
