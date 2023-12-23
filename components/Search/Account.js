@@ -1,48 +1,62 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-import {addfollow, deletefollow} from '../../store/search/followSlice'
-// import { useDispatch, useSelector } from 'react-redux';
+import { addfollow, deletefollow } from '../../store/search/followSlice'
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
 const Account = ({ followUser }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation();    
+  const dispatch = useDispatch();
+
+  const handleFollow = () => {
+    if (followUser.follow == 1) {
+      dispatch(deletefollow(followUser.id));
+      console.log("đã xóa follow")
+    } else {
+      dispatch(addfollow(followUser.id));
+      console.log("đã follow")
+    }
+  };
 
   return (
     <View>
-       <TouchableOpacity
-                onPress={() => navigation.navigate('AccountDetail', { followId: followUser.id, followUser: followUser })}
-              >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    margin: 10,
-                    height: 50,
-                    alignItems: 'center',
-                    marginLeft: 30,
-                    alignSelf: 'flex-start',
-                    width: 320,
-                  }}
-                  key={followUser.id}
-                >
-                  <Image source={{ uri: followUser.avatar }} style={{ width: 50, height: 50, borderRadius: 50, borderWidth: 1, borderColor: 'white' }} />
-                  <View style={{ marginLeft: 10 }}>
-                    <Text style={{ fontWeight: 'medium', fontSize: 18, color: 'white' }}>{followUser.name}</Text>
-                    <Text style={{ fontWeight: 'light', fontSize: 14, color: 'white' }}>{followUser.email}</Text>
-                  </View>
-                  <View style={{ position: 'absolute', right: 0 }}>
-                      {followUser.follow == 0 ? (
-                        <View style={styles.followButton}>
-                          <Text style={styles.buttonText}>Follow</Text>
-                        </View>
-                      ) : (
-                        <View style={styles.unfollowButton}>
-                          <Text style={styles.buttonText}>UnFollow</Text>
-                        </View>
-                      )}
-                  </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('AccountDetail', { followId: followUser.id, followUser: followUser })}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            margin: 10,
+            height: 50,
+            alignItems: 'center',
+            marginLeft: 30,
+            alignSelf: 'flex-start',
+            width: 320,
+          }}
+          key={followUser.id}
+        >
+          <Image source={{ uri: followUser.avatar }} style={{ width: 50, height: 50, borderRadius: 50, borderWidth: 1, borderColor: 'white' }} />
+          <View style={{ marginLeft: 10 }}>
+            <Text style={{ fontWeight: 'medium', fontSize: 18, color: 'white' }}>{followUser.name}</Text>
+            <Text style={{ fontWeight: 'light', fontSize: 14, color: 'white' }}>{followUser.email}</Text>
+          </View>
+          <View style={{ position: 'absolute', right: 0 }}>
+            <TouchableOpacity
+              onPress={handleFollow}>
+              {followUser.follow == 0 ? (
+                <View style={styles.followButton}>
+                  <Text style={styles.buttonText}>Follow</Text>
                 </View>
-              </TouchableOpacity>
+              ) : (
+                <View style={styles.unfollowButton}>
+                  <Text style={styles.buttonText}>UnFollow</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableOpacity>
     </View>
   )
 }

@@ -22,11 +22,13 @@ const AccountDetail = ({ route }) => {
 
     const handleFollow = () => {
         if (followUser.follow == 1) {
-            dispatch(deletefollow(followUser.id));
+          dispatch(deletefollow(followUser.id));
+          console.log("đã xóa follow")
         } else {
-            dispatch(addfollow(followUser.id));
+          dispatch(addfollow(followUser.id));
+          console.log("đã follow")
         }
-    };
+      };
 
     return (
         <LinearGradient
