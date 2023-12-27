@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../../data/config';
 import { getPosts } from '../home/postSlice';
 import { searchUser } from './searchUserSlice';
+import getUserSlice from '../person/getUserSlice';
 
 const followSlice = createSlice({
   name: 'follow',
@@ -88,6 +89,7 @@ export const addfollow = (followId) => async (dispatch, getState) => {
     // console.log(response.status)
     if (response.status === 200) {
       dispatch(addfollowSuccess(followId));
+      dispatch(getUserSlice());
     } else {
       dispatch(addfollowFailure('Failed to add follow.'));
     }
@@ -109,6 +111,7 @@ export const deletefollow = (followId) => async (dispatch, getState) => {
 
     if (response.status === 200) {
       dispatch(deletefollowSuccess(followId));
+      dispatch(getUserSlice());
     }else if (response.status === 400) {
       dispatch(deletefollowSuccess(followId));
       dispatch(getPosts())

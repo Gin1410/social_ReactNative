@@ -1,28 +1,40 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image,  ToastAndroid } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { addfollow, deletefollow } from '../../store/search/followSlice'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
 const Account = ({ followUser }) => {
-  const navigation = useNavigation();    
+  const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [follow, setFollow] = useState();
+
+  useEffect(() => {
+    { followUser.follow == 1 ? setFollow(true) : setFollow(false) }
+  }, []);
 
   const handleFollow = () => {
-    if (followUser.follow == 1) {
+    if (follow == 1) {
       dispatch(deletefollow(followUser.id));
-      console.log("đã xóa follow")
+      // console.log("đã xóa follow")
+      setFollow(follow);
+      // console.log(followUser.id, follow, "follow");
+      ToastAndroid.show('UnFollow success', ToastAndroid.SHORT);
     } else {
+      // console.log("đã add follow")
       dispatch(addfollow(followUser.id));
-      console.log("đã follow")
+      setFollow(!follow);
+      // console.log(followUser.id, follow, "unfollow");
+      ToastAndroid.show('Follow Success', ToastAndroid.SHORT);
     }
+    setFollow(!follow);
   };
 
   return (
     <View>
       <TouchableOpacity
-        onPress={() => navigation.navigate('AccountDetail', { followId: followUser.id, followUser: followUser })}
+        onPress={() => navigation.navigate('AccountDetail', { followId: followUser.id, followUser: followUser, follow })}
       >
         <View
           style={{
@@ -44,7 +56,7 @@ const Account = ({ followUser }) => {
           <View style={{ position: 'absolute', right: 0 }}>
             <TouchableOpacity
               onPress={handleFollow}>
-              {followUser.follow == 0 ? (
+              {follow == 0 ? (
                 <View style={styles.followButton}>
                   <Text style={styles.buttonText}>Follow</Text>
                 </View>

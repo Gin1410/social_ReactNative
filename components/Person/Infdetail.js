@@ -2,9 +2,9 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { getUser } from '../../store/person/getUserSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-
+import { Zocial } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 
 import Post from '../Home/Post';
@@ -24,56 +24,66 @@ const Infdetail = () => {
     dispatch(getUserPosts(userId));
   }, [dispatch, userId]);
 
+  const splitDateTime = user.birth.split(' ');
+  const dateComponents = splitDateTime[0].split('-');
+  const formattedDate = `${dateComponents[2]}/${dateComponents[1]}`;
+
   return (
     <View>
       <View style={{ backgroundColor: 'rgba(94, 80, 149, 0.4)', marginTop: 10 }}>
         <Text style={{ fontSize: 20, fontWeight: 500, padding: 10, }}>My Self</Text>
       </View>
 
-      <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-        <Foundation name="mail" size={24} color="black" />
-        <View style={{ marginLeft: 10 }}>
-          <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Email</Text>
-          <Text>{user.email}</Text>
-        </View>
-      </View>
+      <View style={{ marginLeft: 10, marginRight: 10 }}>
 
-      <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-        <FontAwesome name="birthday-cake" size={24} color="black" />
-        <View style={{ marginLeft: 10 }}>
-          <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Birthday</Text>
-          <Text>{user.birth}</Text>
+        <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 10 }}>
+          <Zocial name="email" size={24} color="black" style={{ width: '10%',   }} />
+          <View>
+            <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Email</Text>
+            <Text>{user.email}</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-        <Ionicons name="transgender-sharp" size={24} color="black" />
-        <View style={{ marginLeft: 10 }}>
-          <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Gender</Text>
-          {user.gender == 0 ? (
-            <Text>Male</Text>
-          ) : user.gender == 1 ? (
-            <Text>Female</Text>
-          ) : (
-            <Text>Secret</Text>
-          )}
+        <View style={{ flexDirection: 'row',  marginTop: 10, marginBottom: 10 }}>
+          <FontAwesome name="birthday-cake" size={24} color="black" style={{ width: '10%',  }} />
+          <View>
+            <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Birthday</Text>
+            <Text>{formattedDate}</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-        <FontAwesome name="address-card" size={24} color="black" />
-        <View style={{ marginLeft: 10 }}>
-          <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Adress</Text>
-          <Text>{user.address}</Text>
+        <View style={{ flexDirection: 'row',  marginTop: 10, marginBottom: 10 }}>
+          <FontAwesome5 name="transgender" size={27} color="black" style={{ width: '10%',  }} />
+          <View>
+            <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Gender</Text>
+            <View>
+              {user.gender == 0 ? (
+                <Text>Male</Text>
+              ) : user.gender == 1 ? (
+                <Text>Female</Text>
+              ) : (
+                <Text>Secret</Text>
+              )}
+            </View>
+          </View>
         </View>
-      </View>
 
-      <View style={{ margin: 15, display: 'flex', flexDirection: 'row' }}>
-        <FontAwesome name="sticky-note" size={24} color="black" />
-        <View style={{ marginLeft: 10 }}>
-          <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Note</Text>
-          <Text>{user.note}</Text>
+        <View style={{ flexDirection: 'row',  marginTop: 10, marginBottom: 10 }}>
+          <FontAwesome name="address-card" size={22} color="black" style={{ width: '10%',  }} />
+          <View>
+            <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Email</Text>
+            <Text>{user.address}</Text>
+          </View>
         </View>
+
+        <View style={{ flexDirection: 'row',  marginTop: 10, marginBottom: 10 }}>
+          <FontAwesome name="sticky-note" size={24} color="black" style={{ width: '10%',  }} />
+          <View>
+            <Text style={{ color: 'black', fontSize: 17, fontWeight: 500 }}>Note</Text>
+            <Text>{user.note}</Text>
+          </View>
+        </View>
+
       </View>
 
       <View style={{ backgroundColor: 'rgba(94, 80, 149, 0.4)', marginTop: 10 }}>

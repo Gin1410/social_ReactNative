@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Provider } from 'react-native-paper';
-
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,21 +9,14 @@ const UserMes = ({ chatUser }) => {
 
     const navigation = useNavigation();
 
-    // Tách thông tin về giờ và phút từ chuỗi thời gian
-    // const splitDateTime = chatUser.created.split(' ');
-    // const timeComponents = splitDateTime[1].split(':');
-    // const formattedTime = `${timeComponents[0]}:${timeComponents[1]}`;
-
     const splitDateTime = chatUser.created.split(' ');
-
     // Tách ngày tháng
     const dateComponents = splitDateTime[0].split('-');
     const formattedDate = `${dateComponents[2]}/${dateComponents[1]}`; // Định dạng lại ngày tháng nếu cần
-
     // Tách giờ phút
     const timeComponents = splitDateTime[1].split(':');
     const formattedTime = `${timeComponents[0]}:${timeComponents[1]}`;
-
+     
     return (
 
         <Provider>

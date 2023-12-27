@@ -63,16 +63,16 @@ export const {
   deleteLikeFailure,
 } = likeSlice.actions;
 
-// export const getLikes = (postId) => async (dispatch, getState) => {
-//   dispatch(getLikesStart());
+export const getLikes = (postId) => async (dispatch, getState) => {
+  dispatch(getLikesStart());
 
-//   try {
-//     const response = await axios.get(API_URL + `home/getLike.php?postId=${postId}`);
-//     dispatch(getLikesSuccess(response.data));
-//   } catch (error) {
-//     dispatch(getLikesFailure(error.message));
-//   }
-// };
+  try {
+    const response = await axios.get(API_URL + `home/getLike.php?postId=${postId}`);
+    dispatch(getLikesSuccess(response.data));
+  } catch (error) {
+    dispatch(getLikesFailure(error.message));
+  }
+};
 
 export const addLike = (postId) => async (dispatch, getState) => {
   dispatch(addLikeStart());

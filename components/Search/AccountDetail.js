@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView,  ToastAndroid } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,9 +10,10 @@ import { addfollow, deletefollow } from '../../store/search/followSlice';
 
 const AccountDetail = ({ route }) => {
     const navigation = useNavigation();
-    const { followId, followUser } = route.params;
+    const { followId, followUser, follow } = route.params;
     const dispatch = useDispatch();
     const { posts } = useSelector((state) => state.postUser);
+    const [Dfollow, setDFollow] = useState();
 
     useEffect(() => {
         dispatch(getUserPosts(followId));
@@ -20,15 +21,27 @@ const AccountDetail = ({ route }) => {
 
     // console.log(posts);
 
+    useEffect(() => {
+        { follow == 1 ? setDFollow(true) : setDFollow(false) }
+    }, [follow]);
+
     const handleFollow = () => {
-        if (followUser.follow == 1) {
-          dispatch(deletefollow(followUser.id));
-          console.log("đã xóa follow")
+            // setDFollow((prevFollow) => !prevFollow);
+        if (Dfollow == 1) {
+            dispatch(deletefollow(followUser.id));
+            console.log("đã xóa follow")
+            // console.log(followUser.id, follow, "follow");
+            setDFollow(Dfollow);
+            ToastAndroid.show('UnFollow success', ToastAndroid.SHORT);
         } else {
-          dispatch(addfollow(followUser.id));
-          console.log("đã follow")
+            console.log("đã add follow")
+            dispatch(addfollow(followUser.id));
+            // console.log(followUser.id, follow, "unfollow");
+            setDFollow(!Dfollow);
+            ToastAndroid.show('Follow success', ToastAndroid.SHORT);
         }
-      };
+        setDFollow(!Dfollow);
+    };
 
     return (
         <LinearGradient
@@ -47,16 +60,14 @@ const AccountDetail = ({ route }) => {
                     <View style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between', width: '55%', marginBottom: 12, }}>
                         <TouchableOpacity
                             onPress={handleFollow}>
-                            {followUser.follow == 0 ? (
-                                <TouchableOpacity style={styles.followButton}
-                                    onPress={handleFollow}>
+                            {Dfollow == 0 ? (
+                                <View style={styles.followButton}>
                                     <Text style={styles.buttonText}>Follow</Text>
-                                </TouchableOpacity>
+                                </View>
                             ) : (
-                                <TouchableOpacity style={styles.unfollowButton}
-                                    onPress={handleFollow}>
-                                    <Text style={styles.buttonText}>Unfollow</Text>
-                                </TouchableOpacity>
+                                <View style={styles.unfollowButton}>
+                                    <Text style={styles.buttonText}>UnFollow</Text>
+                                </View>
                             )}
                         </TouchableOpacity>
 
