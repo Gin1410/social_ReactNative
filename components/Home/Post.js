@@ -19,7 +19,7 @@ const Post = ({ post }) => {
                 <View
                     style={{margin: 10, marginLeft: 15, marginRight: 15, backgroundColor: 'rgba(94, 80, 149, 0.4)', paddingLeft: 15, paddingRight: 15, paddingTop: 5, paddingBottom: 5, height: "fix-content", borderRadius: 20,}}>
 
-                    <PostHeader post={post} />
+                    <PostHeader post={post} navigation={navigation} />
 
                     <PostContent post={post} key={post.id} />
 

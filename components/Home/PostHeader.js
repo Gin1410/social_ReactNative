@@ -10,7 +10,7 @@ import { deletePost } from '../../store/home/postSlice';
 
 import { getUser } from '../../store/person/getUserSlice';
 
-const PostHeader = ({ post }) => {
+const PostHeader = ({ post, navigation }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.getUser.user);
 
@@ -93,7 +93,7 @@ const PostHeader = ({ post }) => {
                             </Button>
                         }
                     >
-                        <Menu.Item onPress={handleDelete} title="Update" />
+                        <Menu.Item onPress={() => navigation.navigate('UpdatePost', {post:post})} title="Update" />
                         <Menu.Item onPress={handleDelete} title="Delete" />
                     </Menu>
                 </View>

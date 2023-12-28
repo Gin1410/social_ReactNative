@@ -53,16 +53,32 @@ const postSlice = createSlice({
         },
         resetPosts(state) {
             state.posts = [];
-          },
+        },
+        updatePostStart(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        updatePostSuccess(state, action) {
+            state.loading = false;
+            // Update the posts array by replacing the old post with the updated post
+            state.posts = state.posts.map(post =>
+                post.id === action.payload.updatedPost.id ? action.payload.updatedPost : post
+            );
+        },
+        updatePostFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload.error;
+        },
     },
 });
 
-export const { 
+export const {
     getPostsStart, getPostsSuccess, getPostsFailure,
     addPostStart, addPostSuccess, addPostFailure,
     deletePostStart, deletePostSuccess, deletePostFailure,
     resetPosts,
- } = postSlice.actions;
+    updatePostStart, updatePostSuccess, updatePostFailure,
+} = postSlice.actions;
 
 
 
@@ -79,13 +95,69 @@ export const getPosts = () => async (dispatch, getState) => {
         const response = await axios.get(API_URL + 'home/getAllPost.php', config);
         // console.log(response.data);
         dispatch(getPostsSuccess(response.data));
-    } catch (error) {   
+    } catch (error) {
         dispatch(getPostsFailure(error.message));
     }
 };
 
 export const addPost = (image, caption) => async (dispatch, getState) => {
     dispatch(addPostStart());
+    try {
+        const token = getState().auth.token;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        const formData = new FormData();
+        formData.append('image', {
+            uri: image,
+            type: 'image/jpeg', // Adjust the type according to your needs
+            name: 'image.jpg',
+        });
+        formData.append('caption', caption);
+        //   console.log(formData);
+
+        const response = await axios.post(API_URL + 'home/addPost.php', formData, config);
+        //   console.log(response);
+
+        if (response.status === 201) {
+            dispatch(addPostSuccess({ newPost: response.data }));
+            dispatch(getPosts());
+        } else {
+            dispatch(addPostFailure('Failed to add post.'));
+        }
+    } catch (error) {
+        dispatch(addPostFailure(error.message));
+    }
+};
+
+export const deletePost = (postId) => async (dispatch, getState) => {
+    dispatch(deletePostStart());
+    try {
+        const token = getState().auth.token;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        // console.log('ok');
+        const response = await axios.delete(API_URL + `home/deletePost.php?postId=${postId}`, config); // Adjust the API endpoint accordingly
+        // console.log(response);
+
+        dispatch(deletePostSuccess({ postId }));
+        dispatch(getPosts());
+    } catch (error) {
+        dispatch(deletePostFailure(error.message));
+    }
+
+};
+
+
+export const updatePost = (postId, image, caption) => async (dispatch, getState) => {
+    dispatch(updatePostStart());
     try {
       const token = getState().auth.token;
       const config = {
@@ -102,41 +174,22 @@ export const addPost = (image, caption) => async (dispatch, getState) => {
         name: 'image.jpg',
       });
       formData.append('caption', caption);
-    //   console.log(formData);
   
-      const response = await axios.post(API_URL + 'home/addPost.php', formData, config);
-    //   console.log(response);
+      const response = await axios.post(
+        `${API_URL}home/updatePost.php?postId=${postId}`,
+        formData,
+        config
+      );
   
-      if (response.status === 201) {
-        dispatch(addPostSuccess({ newPost: response.data }));
+      if (response.status == 200) {
+        dispatch(updatePostSuccess({ updatedPost: response.data }));
         dispatch(getPosts());
       } else {
-        dispatch(addPostFailure('Failed to add post.'));
+        dispatch(updatePostFailure('Failed to update post.'));
       }
     } catch (error) {
-      dispatch(addPostFailure(error.message));
+      dispatch(updatePostFailure(error.message));
     }
   };
-
-export const deletePost = (postId) => async (dispatch, getState) => {
-    dispatch(deletePostStart());
-    try {
-        const token = getState().auth.token;
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        // console.log('ok');
-        const response = await axios.delete(API_URL + `home/deletePost.php?postId=${postId}`, config); // Adjust the API endpoint accordingly
-        // console.log(response);
-        
-        dispatch(deletePostSuccess({ postId }));
-        dispatch(getPosts());
-    } catch (error) {
-        dispatch(deletePostFailure(error.message));
-    }
-
-};
 
 export default postSlice.reducer;

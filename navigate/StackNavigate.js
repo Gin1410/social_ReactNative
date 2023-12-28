@@ -14,6 +14,8 @@ import AccountDetail from '../components/search/AccountDetail';
 import ChatScreen from '../screens/ChatScreen';
 import UserMes from '../components/chat/UserMes';
 import Message from '../components/chat/Message';
+import UpdateInfor from '../components/Person/UpdateInfor';
+import UpdatePost from '../components/Home/UpdatePost';
 
 const Stack = createNativeStackNavigator();
 
@@ -133,7 +135,40 @@ function StackNavigate() {
           headerTintColor: 'white',
         }}
       />
-    </Stack.Navigator>
+
+      <Stack.Screen
+        name="UpdateInfor"
+        component={UpdateInfor}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'UpdateInfor',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
+
+      <Stack.Screen
+        name="UpdatePost"
+        component={UpdatePost}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'UpdatePost',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
+    </Stack.Navigator >
+    
   );
 }
 
