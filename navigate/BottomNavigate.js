@@ -22,7 +22,7 @@ const BottomNavigate = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
+        tabBarActiveTintColor: '#191970',
       }}
     >
       <Tab.Screen
@@ -38,7 +38,9 @@ const BottomNavigate = () => {
       />
       <Tab.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerStyle: { backgroundColor: '#D6E0F5' },
+          headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="text-search" color={color} size={size} style={{ top: 8 }} />
@@ -47,7 +49,9 @@ const BottomNavigate = () => {
         name="SearchScreen" component={SearchScreen} />
       <Tab.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerStyle: { backgroundColor: '#ffffff' },
+          headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="plus" color={color} size={size} style={{ top: 8 }} />
@@ -56,8 +60,10 @@ const BottomNavigate = () => {
         name="AddPostScreen" component={AddPostScreen} />
       <Tab.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
           tabBarLabel: '',
+          headerStyle: { backgroundColor: '#D6E0F5' },
+          headerTitleAlign: 'center',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="music" color={color} size={size} style={{ top: 8 }} />
           ),
@@ -65,7 +71,9 @@ const BottomNavigate = () => {
         name="MusicScreen" component={MusicScreen} />
       <Tab.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerStyle: { backgroundColor: '#ffffff' },
+          headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} style={{ top: 8 }} />

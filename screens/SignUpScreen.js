@@ -12,6 +12,9 @@ import { API_URL } from '../data/config';
 import axios from 'axios';
 import { ToastAndroid } from 'react-native';
 
+import { useDispatch } from 'react-redux';
+import { signup } from '../store/authSlice';
+
 const SignUpScreen = ({ navigation }) => {
 
     const [isPasswordVisible, setIsPasswordVisible] = React.useState(false)
@@ -20,23 +23,14 @@ const SignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const registerUser = () => {
-        const data = {
-            name: name,
-            email: email,
-            password: password
-        };
+    const dispatch = useDispatch();
 
-        // Gửi yêu cầu POST đến API để xác thực
-        axios.post(`${API_URL}log_regis/register.php`, data)
-            .then(response => {
-                const token = response.data.token;
-                ToastAndroid.show('Sign up Success', ToastAndroid.SHORT);
-                navigation.navigate('LoginScreen');
-            })
-            .catch(error => {
-                console.error('Error', error.response.data.message);
-            });
+    const handleSignup = () => {
+        console.log(name, email, password);
+        dispatch(signup(name, email, password)).then(() => {
+            navigation.navigate('LoginScreen');
+            ToastAndroid.show('SignUp Success', ToastAndroid.SHORT);
+          });
     };
 
     return (
@@ -90,7 +84,7 @@ const SignUpScreen = ({ navigation }) => {
                     </View>
 
                     <TouchableOpacity
-                        onPress={() => { registerUser() }}
+                         onPress={() => { handleSignup() }}
                         style={{ borderRadius: 15, alignItems: 'center', justifyContent: "center", width: 100, height: 37, marginTop: 40, elevation: 3, backgroundColor: 'black' }}
                     >
                         <Text style={{ color: 'white' }}>Sign up</Text>
