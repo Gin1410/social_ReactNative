@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../data/config';
 import { useSelector } from 'react-redux';
+import { resetPosts } from './home/postSlice';
+import { resetSearchUser } from './search/searchUserSlice';
 
 const authSlice = createSlice({
     name: 'auth',
@@ -50,19 +52,26 @@ export const {
 } = authSlice.actions;
 
 export const login = (email, password) => async (dispatch) => {
-    dispatch(loginStart());
-    try {
-        const response = await axios.post(API_URL + 'log_regis/login.php', {
-            email,
-            password,
-        });
-        dispatch(loginSuccess(response.data));
-        console.log(response.data);
-        console.log(response.data.token);
-    } catch (error) {
-        dispatch(loginFailure(error.message));
-    }
+  dispatch(loginStart());
+  try {
+    const response = await axios.post(API_URL + 'log_regis/login.php', {
+      email,
+      password,
+    });
+
+    dispatch(loginSuccess(response.data));
+    console.log(response.data);
+    console.log(response.data.token);
+
+    // Return true to indicate a successful login
+    return true;
+  } catch (error) {
+    dispatch(loginFailure(error.message));
+    // Return false to indicate a failed login
+    return false;
+  }
 };
+
 
 export const signup = (name, email, password) => async (dispatch) => {
     dispatch(signupStart());
@@ -80,6 +89,8 @@ export const signup = (name, email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch, getState) => {
     dispatch(logoutUser());
+    dispatch(resetPosts()); // Thêm dòng này để reset posts khi logout
+    dispatch(resetSearchUser());
     console.log('Logout auth');
 };
 

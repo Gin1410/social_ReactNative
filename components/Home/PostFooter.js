@@ -1,41 +1,58 @@
-import { Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLike, deleteLike } from '../../store/home/likeSlice';
 
 const PostFooter = ({ post }) => {
-    return (
-        <View>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 10, marginRight: 10 }}>
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.getUser.user.id);
+  // console.log(userId);
 
-                <View style={{ flexDirection: "row", alignItem: "center", marginLeft: 10 }}>
-                    <TouchableOpacity style={{ alignItems: "center", alignContent: "center" }}>
-                        <AntDesign name="hearto" size={24} color="black" />
-                        <Text style={{ color: "black" }}> {post.like_count} </Text>
-                    </TouchableOpacity>
+  const handleLike = () => {
+    if (post.like_status == 1) {
+      dispatch(deleteLike(post.id));
+      // console.log("Delete")
+    } else {
+      dispatch(addLike(post.id));
+    }
+  };
 
-                    <TouchableOpacity style={{ alignItems: "center", alignContent: "center", marginLeft: 10 }}>
-                        <Feather name="message-circle" size={24} color="black" />
-                        <Text style={{ color: "black" }}> {post.comment_count} </Text>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity style={{ alignItems: "center", alignContent: "center", marginLeft: 10 }}>
-                        <Feather style={{ marginLeft: 7, marginTop: 1 }} name="send" size={24} color="black" />
-                    </TouchableOpacity>
+  return (
+    <View>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 10, marginRight: 10 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
+          <TouchableOpacity
+            style={{ alignItems: "center", justifyContent: "center" }}
+            onPress={handleLike}
+          >
+            {/* <AntDesign name={liked ? 'heart' : 'hearto'} size={24} color={liked ? '#DD0000' : 'white'} /> */}
+            {post.like_status == 1 ? (
+              <AntDesign name='heart' size={24} color='#DD0000' />
+            ) : (
+              <AntDesign name='hearto' size={24} color='white' />
+            )}
+            <Text style={{ color: "white" }}> {post.like_count} </Text>
+          </TouchableOpacity>
 
-                </View>
+          <TouchableOpacity style={{ alignItems: "center", justifyContent: "center", marginLeft: 10 }}>
+            <Feather name="message-circle" size={24} color="white" />
+            <Text style={{ color: "white" }}> {post.comment_count} </Text>
+          </TouchableOpacity>
 
-                <TouchableOpacity>
-                    <Feather style={{ marginLeft: 10, marginTop: -15 }} name="bookmark" size={24} color="black" />
-                </TouchableOpacity>
-
-            </View>
-
-            <View style={{ margin: 10 }}>
-                <Text style={{ color: "gray" }}>View{post.comment_count > 1 ? ' all' : ''} {post.comment_count} {post.comment_count > 1 ? 'comments' : 'comment'}</Text>
-            </View>
+          <TouchableOpacity style={{ alignItems: "center", justifyContent: "center", marginLeft: 4, marginTop: -17 }}>
+            <Feather style={{ marginLeft: 7 }} name="send" size={24} color="white" />
+          </TouchableOpacity>
         </View>
-    )
-}
+
+        <TouchableOpacity>
+          <Feather style={{ marginLeft: 10, marginTop: -15 }} name="bookmark" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
 export default PostFooter;

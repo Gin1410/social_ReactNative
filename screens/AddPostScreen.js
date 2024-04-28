@@ -1,34 +1,94 @@
-import { StyleSheet, BackHandler, Alert } from 'react-native'
-import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import AddPost from '../components/AddPost/AddPost';
+import { LinearGradient } from 'expo-linear-gradient';
 
-const AddPostScreen = () => {
+import { StyleSheet, View, Image, TextInput, TouchableOpacity, PermissionsAndroid, Button, Text, ToastAndroid } from 'react-native'
+import React, { useState } from 'react'
+import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux';
+import { addPost, getPosts } from '../store/home/postSlice';
 
-  useEffect(() => {
-    const backAction = () => {
-      Alert.alert('Exit the application', 'Are you sure you want to exit the application?', [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        { text: 'Exit the app', onPress: () => BackHandler.exitApp() },
-      ]);
-      return true;
-    };
+const AddPostScreen = ({ navigation }) => {
 
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+  const dispatch = useDispatch();
 
-    return () => backHandler.remove();
-  }, []);
+  const [image, setImage] = useState(null);
+  const [caption, setCaption] = useState('');
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [12, 10],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const handlePost = async () => {
+    try {
+      // Dispatch the addPost action
+      await dispatch(addPost(image, caption));
+  
+      // Reset the state after posting
+      setImage(null);
+      setCaption('');
+  
+      // Dispatch getPosts only after addPost is completed
+      await dispatch(getPosts());
+  
+      // Navigate to the HomeScreen
+      navigation.navigate('HomeScreen');
+  
+      // Show a success message
+      ToastAndroid.show('Post Success', ToastAndroid.SHORT);
+    } catch (error) {
+      // Handle errors if necessary
+      console.error('Error while posting:', error.message);
+    }
+  };
 
   return (
-    <SafeAreaView>
 
-      <AddPost />
-    </SafeAreaView>
+    <LinearGradient
+      colors={['#5d44d9', '#9E77EC', '#D195EE', '#CECBD3']}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView>
+
+        <View>
+          <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row", margin: 10 }}>
+            <TouchableOpacity onPress={pickImage}>
+              {image && <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />}
+              {!image && <Image source={require('../assets/image/placeholderIMG.png')} style={{ width: 150, height: 150 }} />}
+            </TouchableOpacity>
+            <TextInput
+              placeholder="Your caption"
+              placeholderTextColor={'white'}
+              style={{ paddingLeft: 10, width: 215, fontSize: 17 }}
+              value={caption}
+              onChangeText={(text) => setCaption(text)}
+            />
+          </View>
+          <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity
+              onPress={handlePost}
+              style={{ borderRadius: 30, alignItems: 'center', justifyContent: "center", elevation: 10, backgroundColor: '#635A8F', padding: 15, marginTop: 20, width: 200 }}
+            >
+              <Text style={{ color: 'white', fontWeight: '700' }}>Post</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+      </SafeAreaView>
+
+    </LinearGradient>
   )
 }
 

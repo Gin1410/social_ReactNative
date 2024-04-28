@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, Text, View, BackHandler, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { NavigationContainer, useFocusEffect  } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -9,14 +9,46 @@ import HomeScreen from '../screens/HomeScreen'
 import SearchScreen from '../screens/SearchScreen'
 import PersonScreen from '../screens/PersonScreen'
 import AddPostScreen from '../screens/AddPostScreen';
-import MusicScreen from '../screens/MusicScreen';
+import ChatScreen from '../screens/ChatScreen';
 
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigate = () => {
 
+  const [isInBottomNavigate, setIsInBottomNavigate] = useState(true);
+
+  useFocusEffect(() => {
+    const backAction = () => {
+      if (isInBottomNavigate) {
+        Alert.alert(
+          'Exit the application',
+          'Are you sure you want to exit the application?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => null,
+              style: 'cancel',
+            },
+            { text: 'Exit the app', onPress: () => BackHandler.exitApp() },
+          ]
+        );
+        return true;
+      } else {
+        return false;
+      }
+    };
   
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+  
+    return () => backHandler.remove();
+  });
+  
+
+
   return (
 
     <Tab.Navigator
@@ -25,6 +57,7 @@ const BottomNavigate = () => {
         tabBarActiveTintColor: '#191970',
       }}
     >
+
       <Tab.Screen
         options={{
           headerShown: false,
@@ -34,23 +67,26 @@ const BottomNavigate = () => {
           ),
         }}
         name="HomeScreen" component={HomeScreen}
-        // initialParams={{ token: token }}
+      // initialParams={{ token: token }}
       />
+
       <Tab.Screen
         options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: '#D6E0F5' },
-          headerTitleAlign: 'center',
+          headerShown: false,
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="text-search" color={color} size={size} style={{ top: 8 }} />
           ),
         }}
         name="SearchScreen" component={SearchScreen} />
+
       <Tab.Screen
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: '#ffffff' },
+          headerStyle: { backgroundColor: '#5d44d9' },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
           headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
@@ -58,21 +94,29 @@ const BottomNavigate = () => {
           ),
         }}
         name="AddPostScreen" component={AddPostScreen} />
+
       <Tab.Screen
         options={{
-          headerShown: true,
-          tabBarLabel: '',
-          headerStyle: { backgroundColor: '#D6E0F5' },
+          headerShown: false,
+          headerStyle: { backgroundColor: '#5d44d9' },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
           headerTitleAlign: 'center',
+          tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="music" color={color} size={size} style={{ top: 8 }} />
+            <MaterialCommunityIcons name="chat" color={color} size={size} style={{ top: 8 }} />
           ),
         }}
-        name="MusicScreen" component={MusicScreen} />
+        name="ChatScreen" component={ChatScreen} />
+
       <Tab.Screen
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: '#ffffff' },
+          headerStyle: { backgroundColor: '#5d44d9' },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
           headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (

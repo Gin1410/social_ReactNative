@@ -1,21 +1,34 @@
 
 import * as React from 'react';
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from '../screens/LoginScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import BottomNavigate from './BottomNavigate';
-import PostDetail from '../screens/PostDetail';
+import PostDetail from '../components/Home/PostDetail';
 import Post from '../components/Home/Post';
+import AddPostScreen from '../screens/AddPostScreen';
+// import Account from '../components/Search/Account';
+import SearchScreen from '../screens/SearchScreen';
+import AccountDetail from '../components/search/AccountDetail';
+import ChatScreen from '../screens/ChatScreen';
+import UserMes from '../components/chat/UserMes';
+import Message from '../components/chat/Message';
+import UpdateInfor from '../components/Person/UpdateInfor';
+import UpdatePost from '../components/Home/UpdatePost';
 
 const Stack = createNativeStackNavigator();
 
 function StackNavigate() {
 
   return (
-    <Stack.Navigator initialRouteName="LoginScreen">
+    <Stack.Navigator
+      initialRouteName="LoginScreen"
+      screenOptions={{
+        tabBarActiveTintColor: '#191970',
+        tabBarStyle: { backgroundColor: '#E7E7E7' },
+      }}
+    >
 
       <Stack.Screen
         name="BottomNavigate"
@@ -41,6 +54,13 @@ function StackNavigate() {
         options={{
           headerShown: true,
           tabBarLabel: 'Post Detail',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
         }}
       />
 
@@ -50,7 +70,105 @@ function StackNavigate() {
         options={{ headerShown: false }}
       />
 
-    </Stack.Navigator>
+      <Stack.Screen
+        name="AddPostScreen"
+        component={AddPostScreen}
+        options={{ headerShown: false }}
+      />
+
+      {/* <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'Post Detail',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      /> */}
+
+      <Stack.Screen
+        name="AccountDetail"
+        component={AccountDetail}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'Account Detail',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
+
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Message"
+        component={Message}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Message',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
+
+      <Stack.Screen
+        name="UpdateInfor"
+        component={UpdateInfor}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'UpdateInfor',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
+
+      <Stack.Screen
+        name="UpdatePost"
+        component={UpdatePost}
+        options={{
+          headerShown: true,
+          tabBarLabel: 'UpdatePost',
+          headerStyle: {
+            backgroundColor: '#5d44d9', // Set the desired background color
+          },
+          headerTitleStyle: {
+            color: 'white', // Set the desired text color
+          },
+          headerTintColor: 'white',
+        }}
+      />
+    </Stack.Navigator >
+    
   );
 }
 
