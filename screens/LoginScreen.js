@@ -111,6 +111,7 @@ const LoginScreen = ({ navigation }) => {
                 </View>
 
             </View>
+
         </SafeAreaView>
     )
 }
